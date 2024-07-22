@@ -5,6 +5,7 @@ import React, { useState } from 'react'
 import Footer from './Footer';
 import Image from 'next/image';
 import navlogo from '../img/doc_care.png'
+import axios from 'axios';
 type SearchResult = {
     _id: any;
     title: string;
@@ -42,21 +43,23 @@ export default function Navbar() {
       pointerEvents: 'none',
     };
 
-    const handleSearch = async (e: { preventDefault: () => void; }) => {
-        e.preventDefault();
-        if (searchTerm.trim().length === 0) {
-          setSearchResults([]);
-          return;
-        }
-    
-        try {
-          const response = await fetch(`/api/search?term=${searchTerm}`);
-          const data = await response.json();
-          setSearchResults(data.results);
-        } catch (error) {
-          console.error('Error fetching search results:', error);
-        }
-      };
+    const handleSearch = async (e: React.FormEvent) => {
+      e.preventDefault();
+      if (searchTerm.trim().length === 0) {
+        setSearchResults([]);
+        return;
+      }
+  
+      try {
+        const response = await axios.get(`/api/search`, {
+          params: { term: searchTerm },
+        });
+        console.log('Search response:', response.data); // Log the response data
+        setSearchResults(response.data.results);
+      } catch (error) {
+        console.error('Error fetching search results:', error);
+      }
+    };
     const toggleFooter = () => {
         setIsFooterVisible(!isFooterVisible);
         };
@@ -112,7 +115,7 @@ return (
 <span className="sm-name">Guest</span>
 )}
 <Link href="/">Home</Link>
-<Link href="/pages/DoctorInfo">Doctor </Link>
+<Link href="/pages/Physicians">Physicians </Link>
 <Link href="/pages/Login">Patient </Link>
 <Link href='#!' onClick={toggleFooter}>More:</Link>
 </div>
