@@ -1,16 +1,19 @@
 'use client'
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react';
 import Footer from './Footer';
 import Image from 'next/image';
-import navlogo from '../img/doc_care.png'
+import navlogo from '../img/doc_care.png';
 import axios from 'axios';
-
+import { v4 as uuidv4 } from 'uuid'; 
 type SearchResult = {
-    id: string;
-    title: string;
+    _id: string;
+    doctorname: string;
+    role: string;
 };
+
+
 
 export default function Navbar() {
   const router = useRouter();
@@ -114,10 +117,11 @@ export default function Navbar() {
         <div className="search-results-container">
           <div className="search-results">
             {searchResults.length > 0 ? (
-              searchResults.map((result) => (
-                <div key={result.id} className="search-result-item">
-                  <Link href={`/doctor/${result.id}`}>
-                    <p>{result.title}</p>
+              searchResults.map((doctor) => (
+                <div key={doctor._id || uuidv4()} className="search-result-item">
+                  <Link href={`/pages/doctor/${doctor._id.toString()}`}>
+                    <p>{doctor.doctorname}</p> |
+                    <p>{doctor.role}</p>
                   </Link>
                 </div>
               ))

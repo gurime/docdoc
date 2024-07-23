@@ -17,7 +17,7 @@ export async function GET(req: NextRequest) {
     const allDoctors = await Doctor.find({}).lean().exec();
 
     const results = await Doctor.find({
-      title: { $regex: term, $options: 'i' }
+      doctorname: { $regex: term, $options: 'i' }
     }).lean().exec();
 
 
