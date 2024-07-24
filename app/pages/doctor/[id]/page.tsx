@@ -2,6 +2,7 @@ import React from 'react';
 import { getDoctor } from '../lib';
 import Navbar from '@/app/components/Navbar';
 import Footer from '@/app/components/Footer';
+import Image from 'next/image';
 
 export async function generateMetadata({ params }: { params: { _id: string } }): Promise<{ title: string }> {
 const articleId: string | undefined = params._id;
@@ -46,7 +47,7 @@ export default async function DoctorDetailsPage({ params }: { params: { _id: str
       <div>
         <h1>{doctor.doctorname}</h1>
         <h1>{doctor.role}</h1>
-       
+       <img src={doctor.image}  alt='...'/>
       </div>
       <Footer />
     </>

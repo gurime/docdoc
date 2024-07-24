@@ -1,28 +1,42 @@
-import connectToDatabase from '@/app/lib/mongodb';
-import Doctor from '@/app/models/doctor';
-import { NextRequest, NextResponse } from 'next/server';
+// pages/api/search.ts
+import { NextApiRequest, NextApiResponse } from 'next'
+import { createClient } from '@supabase/supabase-js'
 
-export async function GET(req: NextRequest) {
-  const { searchParams } = new URL(req.url);
-  const term = searchParams.get('term');
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
-  if (!term || term.trim().length === 0) {
-    return NextResponse.json({ results: [] }, { status: 200 });
+if (!supabaseUrl || !supabaseKey) {
+  throw new Error('Missing Supabase URL or Key environment variable')
+}
+
+const supabase = createClient(supabaseUrl, supabaseKey)
+
+export default async function handler(req: { method: string; query: { term: any } }, res: { status: (arg0: number) => { (): any; new(): any; json: { (arg0: { error?: string; results?: any[] }): void; new(): any } } }) {
+  if (req.method !== 'GET') {
+    res.status(405).json({ error: 'Method not allowed' });
+    return;
+  }
+
+  const { term } = req.query;
+
+  if (!term) {
+    res.status(400).json({ error: 'Search term is required' });
+    return;
   }
 
   try {
-    await connectToDatabase();
-   
+    const { data, error } = await supabase
+      .from('Doctor')
+      .select('*')
+      .ilike('doctorname', `%${term}%`);
 
-    const allDoctors = await Doctor.find({}).lean().exec();
+    if (error) {
+      throw error;
+    }
 
-    const results = await Doctor.find({
-      doctorname: { $regex: term, $options: 'i' }
-    }).lean().exec();
-
-
-    return NextResponse.json({ results }, { status: 200 });
+    res.status(200).json({ results: data });
   } catch (error) {
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    console.error('Error fetching search results:', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 }

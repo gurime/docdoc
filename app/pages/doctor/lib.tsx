@@ -1,35 +1,25 @@
-import mongoose from 'mongoose';
-import Doctor from '@/app/models/doctor';
-import connectToDatabase from '@/app/lib/mongodb';
+import { createClient } from '@supabase/supabase-js'
 
-interface DoctorDocument extends mongoose.Document {
-  _id: string;
-  doctorname: string;
-  role: string;
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+if (!supabaseUrl || !supabaseKey) {
+  throw new Error('Missing Supabase URL or Key environment variable')
 }
 
-export async function getDoctor(id: string | undefined): Promise<DoctorDocument | null> {
+const supabase = createClient(supabaseUrl, supabaseKey)
 
-  if (!id || id === 'undefined') {
-    try {
-      await connectToDatabase();
-      const doctor = await Doctor.findOne().exec();
-      return doctor as DoctorDocument | null;
-    } catch (error) {
-      return null;
-    }
+export const getDoctor = async (id: string) => {
+  const { data, error } = await supabase
+    .from('Doctor')
+    .select('*')
+    .eq('id', id)
+    .single()
+
+  if (error) {
+    console.error('Error fetching doctor:', error)
+    return null
   }
 
-  try {
-    await connectToDatabase();
-    let doctor = await Doctor.findById(id).exec();
-    
-    if (!doctor) {
-      doctor = await Doctor.findOne().exec();
-    }
-
-    return doctor as DoctorDocument | null;
-  } catch (error) {
-    return null;
-  }
+  return data
 }
