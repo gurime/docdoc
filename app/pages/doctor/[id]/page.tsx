@@ -1,11 +1,10 @@
 import React from 'react';
-import { getDoctor } from '../lib';
 import Navbar from '@/app/components/Navbar';
 import Footer from '@/app/components/Footer';
-import Image from 'next/image';
+import { getDoctor } from '../lib';
 
-export async function generateMetadata({ params }: { params: { _id: string } }): Promise<{ title: string }> {
-const articleId: string | undefined = params._id;
+export async function generateMetadata({ params }: { params: { id: string } }): Promise<{ title: string }> {
+const articleId: string | undefined = params.id;
 
 try {
 const DoctorDetails = await getDoctor(articleId);
@@ -25,8 +24,8 @@ title: 'Doctor care | Error',
 }
 }
 
-export default async function DoctorDetailsPage({ params }: { params: { _id: string } }): Promise<JSX.Element> {
-  const articleId: string | undefined = params._id;
+export default async function DoctorDetailsPage({ params }: { params: { id: string } }): Promise<JSX.Element> {
+  const articleId: string | undefined = params.id;
 
   // Fetch doctor details
   const doctor = await getDoctor(articleId);
@@ -44,11 +43,41 @@ export default async function DoctorDetailsPage({ params }: { params: { _id: str
   return (
     <>
       <Navbar />
-      <div>
-        <h1>{doctor.doctorname}</h1>
-        <h1>{doctor.role}</h1>
-       <img src={doctor.image}  alt='...'/>
-      </div>
+      <div className="DoctorProfileContainer">
+  <div className="profileImgBackground">
+    <h1 className="doctorName">{doctor.doctorname}</h1>
+    <h2 className="doctorRole">{doctor.role}</h2>
+  </div>
+  
+  <img src={doctor.coverimage} alt={`${doctor.doctorname}`} className="doctorImage" />
+  
+  <div className="doctorContent">
+    <h3>About {doctor.doctorname}</h3>
+    <p>{doctor.content}</p>
+    
+    <div className="doctorDetails">
+      <h4>Specialties:</h4>
+      <p>{doctor.specialties}</p>
+      
+      <h4>Education:</h4>
+      <p>{doctor.education}</p>
+      
+      <h4>Experience:</h4>
+      <p>{doctor.experience}</p>
+      
+      <h4>Contact Information:</h4>
+      <p>Email: {doctor.email}</p>
+      <p>Phone: {doctor.phone}</p>
+      <p>Address: {doctor.address}</p>
+    </div>
+    
+    <div className="doctorFooter">
+      <button className="bookAppointmentButton">Book an Appointment</button>
+      <button className="viewReviewsButton">View Reviews</button>
+    </div>
+  </div>
+</div>
+
       <Footer />
     </>
   );

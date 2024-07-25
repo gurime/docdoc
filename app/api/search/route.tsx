@@ -1,42 +1,54 @@
-// pages/api/search.ts
-import { NextApiRequest, NextApiResponse } from 'next'
-import { createClient } from '@supabase/supabase-js'
+import supabase from '@/app/Config/supabase'
+import { NextResponse } from 'next/server'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-
-if (!supabaseUrl || !supabaseKey) {
-  throw new Error('Missing Supabase URL or Key environment variable')
-}
-
-const supabase = createClient(supabaseUrl, supabaseKey)
-
-export default async function handler(req: { method: string; query: { term: any } }, res: { status: (arg0: number) => { (): any; new(): any; json: { (arg0: { error?: string; results?: any[] }): void; new(): any } } }) {
-  if (req.method !== 'GET') {
-    res.status(405).json({ error: 'Method not allowed' });
-    return;
-  }
-
-  const { term } = req.query;
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const term = searchParams.get('term');
 
   if (!term) {
-    res.status(400).json({ error: 'Search term is required' });
-    return;
+    return NextResponse.json({ error: 'Valid search term is required' }, { status: 400 });
   }
 
   try {
-    const { data, error } = await supabase
-      .from('Doctor')
+    // Log the search term for debugging
+    console.log('Search term:', term);
+
+    // Additional debugging: Retrieve all records to see what data exists
+    const allData = await supabase
+      .from('doctors')  // Ensure this matches the actual table name
       .select('*')
-      .ilike('doctorname', `%${term}%`);
+      .limit(10); // Limiting to 10 for brevity
+
+    console.log('All Doctor records:', allData);
+
+    // Perform the search query
+    const { data, error, count } = await supabase
+      .from('doctors')  // Ensure this matches the actual table name
+      .select('id, doctorname', { count: 'exact' })
+      .ilike('doctorname', `%${term}%`)
+      .order('created_at', { ascending: false })
+      .limit(10);
+
+    // Log the response from Supabase
+    console.log('Supabase search response data:', data);
+    console.log('Supabase search response error:', error);
+    console.log('Total search results count:', count);
 
     if (error) {
+      console.error('Supabase error:', error);
       throw error;
     }
 
-    res.status(200).json({ results: data });
+    if (data && data.length > 0) {
+      return NextResponse.json({
+        results: data,
+        total: count
+      });
+    } else {
+      return NextResponse.json({ results: [], total: 0 });
+    }
   } catch (error) {
     console.error('Error fetching search results:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
