@@ -125,7 +125,7 @@ export default function Navbar() {
                     </div>
                   ))
                 ) : (
-                  <p>No results found</p>
+                  <p>Searching</p>
                 )}
               </div>
             </div>

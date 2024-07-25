@@ -24,7 +24,7 @@ export async function GET(request: Request) {
     // Perform the search query
     const { data, error, count } = await supabase
       .from('doctors')  // Ensure this matches the actual table name
-      .select('id, doctorname', { count: 'exact' })
+      .select('id, doctorname, role', { count: 'exact' })
       .ilike('doctorname', `%${term}%`)
       .order('created_at', { ascending: false })
       .limit(10);
