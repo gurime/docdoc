@@ -13,6 +13,7 @@ type SearchResult = {
   doctorname: string;
   role: string;
   created_at: string;
+  coverimage:string;
 };
 
 export default function Navbar() {
@@ -105,32 +106,38 @@ export default function Navbar() {
         <div style={overlayStyle}></div>
 
         <form style={{ width: '100%', position: 'relative' }} onSubmit={(e) => e.preventDefault()}>
-          <input
-            placeholder="Search Doctor Care"
-            type="search"
-            spellCheck={false}
-            dir="auto"
-            value={searchTerm}
-            onChange={handleSearchInputChange}
-          />
-          {isOverlayActive && (
-            <div className="search-results-container">
-              <div className="search-results">
-                {searchResults.length > 0 ? (
-                  searchResults.map((doctor) => (
-                    <div key={doctor.id || uuidv4()} className="search-result-item">
-                      <Link href={`/pages/doctor/${doctor.id}`}>
-                        <p>{doctor.doctorname}</p> | <p>{doctor.role}</p>
-                      </Link>
-                    </div>
-                  ))
-                ) : (
-                  <p>Searching</p>
-                )}
-              </div>
+  <input
+    placeholder="Search Doctor Care"
+    type="search"
+    spellCheck={false}
+    dir="auto"
+    value={searchTerm}
+    onChange={handleSearchInputChange}
+  />
+  {isOverlayActive && (
+    <div className="search-results-container">
+      <div className="search-results">
+        {searchResults.length > 0 ? (
+          searchResults.map((doctor) => (
+            <div key={doctor.id || uuidv4()} className="search-result-item">
+              <Link href={`/pages/doctor/${doctor.id}`}>
+                <div className="doctorcard">
+                  <img className="doctorcard-image" src={doctor.coverimage} alt={doctor.doctorname} />
+                  <div className="doctorcard-info">
+                    <p className="doctorcard-name">{doctor.doctorname}</p>
+                    <p className="doctorcard-role">{doctor.role}</p>
+                  </div>
+                </div>
+              </Link>
             </div>
-          )}
-        </form>
+          ))
+        ) : (
+          <p>Searching...</p>
+        )}
+      </div>
+    </div>
+  )}
+  </form>
 
         <div className="navlinks">
           {isSignedIn ? (

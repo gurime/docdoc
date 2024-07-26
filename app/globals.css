@@ -25,44 +25,76 @@ body,html {
   cursor: pointer;
   }
   
-  .nav input{
-  width:100%;
-  height:38px;
-  padding:1rem;
-  outline:none;
-  border:none;
-  font-size: 15px;
-  margin: auto;
-  color: #111;
-  letter-spacing: 1px;
+  .nav input {
+    width: 100%;
+    height: 38px;
+    padding: 1rem;
+    outline: none;
+    border: none;
+    font-size: 15px;
+    margin: auto;
+    color: #111;
+    letter-spacing: 1px;
   }
   
-  
-  
-  .search-results-container{
-  background-color: #fff;
-  z-index: 999;
-  position : absolute ;
-  width: 100%;
+  .search-results-container {
+    background-color: #fff;
+    z-index: 999;
+    position: absolute;
+    width: 100%;
   }
   
-  .search-results-container a{
+  .search-results-container a {
+ 
+    text-decoration: none;
+    font-weight: bolder;
+  }
+  
+  .search-results-container p {
+    font-size: 16px;
+    padding: 0 1rem;
+    letter-spacing: 2px;
+    font-weight: bold;
+  }
+  
+  .doctorcard {
     display: flex;
     align-items: center;
-  color: #000;
-  text-decoration: none;
-  font-weight: bolder;
-  text-align: start;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin: 0.5rem 0;
+    background-color: #f9f9f9;
   }
   
-  
-  
-  .search-results-container p{
-  font-size: 16px;
-  padding: 0 1rem;
-  letter-spacing: 2px;
-  font-weight: bold;
+  .doctorcard-image {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    border: solid 4px #fff;
+    object-fit: cover;
+    margin-right: 1rem;
   }
+  
+  .doctorcard-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .doctorcard-name {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+  }
+  
+  .doctorcard-role {
+    font-size: 16px;
+    color: #666;
+  }
+  
+
+
   
   
   
@@ -266,8 +298,81 @@ body,html {
   }
 }
 
+.backbtn {
+  padding: 5px 10px;
+  font-size: 18px;
+  color: #fff;
+  background-color: #155e75;
+  border: none;
+  border-radius: 4px;
+  text-transform: capitalize;
+  cursor: pointer;
+  background-size: 200% auto;
+  margin-left: 1rem;
+  flex-shrink: 0;
+}
+
 
 /* Docotor profile page stops here */
+
+/* pysician page starts here */
+.grid-container {
+  display: grid;
+  place-items: center;
+  place-content: center;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  grid-gap: .5em;
+  gap: .5em;
+  padding: 1rem;
+}
+
+.card {
+  background-color: #fff;
+  border-radius: 1rem;
+  max-width: 30rem;
+  margin: 0 0 1rem;
+  padding: 1rem;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, .3);
+}
+
+.card img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  object-position: center;
+}
+
+.card-title {
+  font-size: 1.5rem;
+  line-height: 2rem;
+  font-weight: 400;
+}
+
+.authflex {
+  display: flex;
+  place-items: center;
+  justify-content: space-between;
+}
+
+.card-content {
+  line-height: 2;
+}
+
+.hero-btn {
+  display: inline-block;
+  padding: 12px 24px;
+  color: #fff;
+  background-color: #155e75;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-size: 200% auto;
+  transition: .5s;
+  margin: 1rem 0;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+/* pysician page stops here */
   /* footer starts here */
 
   footer {

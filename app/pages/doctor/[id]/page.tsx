@@ -2,6 +2,9 @@ import React from 'react';
 import Navbar from '@/app/components/Navbar';
 import Footer from '@/app/components/Footer';
 import { getDoctor } from '../lib';
+import Goback from '@/app/components/goback';
+import ReviewComponent from '@/app/components/Review';
+import AppointmentComponent from '@/app/components/Appointment';
 
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<{ title: string }> {
 const articleId: string | undefined = params.id;
@@ -72,8 +75,9 @@ export default async function DoctorDetailsPage({ params }: { params: { id: stri
     </div>
     
     <div className="doctorFooter">
-      <button className="bookAppointmentButton">Book an Appointment</button>
-      <button className="viewReviewsButton">View Reviews</button>
+<AppointmentComponent articleId={articleId}/>
+<ReviewComponent articleId={articleId}/>      
+<Goback/>
     </div>
   </div>
 </div>
