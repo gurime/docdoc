@@ -158,7 +158,6 @@ export default function Navbar() {
           )}
           <Link href="/">Home</Link>
           <Link href="/pages/Physicians">Physicians</Link>
-          <Link href="/pages/Login">Patient</Link>
           <Link href='#!' onClick={toggleFooter}>More:</Link>
         </div>
       </div>
