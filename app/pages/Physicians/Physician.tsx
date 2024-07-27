@@ -5,7 +5,7 @@ import Navbar from "@/app/components/Navbar";
 import supabase from "@/app/Config/supabase";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { FaThumbsDown, FaThumbsUp } from "react-icons/fa";
+import { FaStar } from "react-icons/fa";
 import { MdReviews } from "react-icons/md";
 import { v4 as uuidv4 } from 'uuid';
 
@@ -15,9 +15,17 @@ interface Doctor {
   role: string;
   coverimage: string;
   content: string;
-  commentscount: number;  // Changed to lowercase
-  votecount: number;      // Changed to lowercase
-  downcount: number;      // Changed to lowercase
+  commentscount: number;
+  votecount: number;
+  rating: number;
+  review_count: number;
+  average_rating: number;
+}
+
+interface Review {
+  doctor_id: string;
+  review_text: string;
+  rating: number;
 }
 
 export default function Physician() {
@@ -25,53 +33,44 @@ export default function Physician() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchDoctors = async () => {
+    const fetchDoctorsAndReviews = async () => {
       try {
-        const { data, error } = await supabase
+        // Fetch doctors
+        const { data: doctorsData, error: doctorsError } = await supabase
           .from('doctors')
           .select('*');
-        if (error) throw error;
-        console.log('Fetched doctors:', data);
-        setDoctors(data || []);
+
+        if (doctorsError) throw doctorsError;
+
+        // Fetch reviews
+        const { data: reviewsData, error: reviewsError } = await supabase
+          .from('reviews')
+          .select('doctor_id, review_text, rating');
+
+        if (reviewsError) throw reviewsError;
+
+        // Process and combine the data
+        const processedDoctors = doctorsData.map((doctor: Doctor) => {
+          const doctorReviews = reviewsData.filter((review: Review) => review.doctor_id === doctor.id);
+          const review_count = doctorReviews.length;
+          const average_rating = doctorReviews.reduce((sum: number, review: Review) => sum + review.rating, 0) / review_count || 0;
+
+          return {
+            ...doctor,
+            review_count,
+            average_rating
+          };
+        });
+
+        setDoctors(processedDoctors);
         setLoading(false);
       } catch (error) {
-        console.error('Error fetching doctors:', error);
         setLoading(false);
       }
     };
 
-    fetchDoctors();
+    fetchDoctorsAndReviews();
   }, []);
-
-  const handleVote = async (doctorId: string, voteType: 'up' | 'down') => {
-    try {
-      const { data, error } = await supabase
-        .rpc('increment', { 
-          row_id: doctorId,  // Changed to use string ID directly
-          column_name: voteType === 'up' ? 'votecount' : 'downcount'  // Changed to lowercase
-        });
-
-      if (error) throw error;
-
-      const { data: updatedDoctor, error: fetchError } = await supabase
-        .from('doctors')
-        .select('*')
-        .eq('id', doctorId)
-        .single();
-
-      if (fetchError) throw fetchError;
-
-      console.log('Updated doctor:', updatedDoctor);
-
-      setDoctors(prevDoctors => 
-        prevDoctors.map(doctor => 
-          doctor.id === doctorId ? updatedDoctor : doctor
-        )
-      );
-    } catch (error) {
-      console.error(`Error ${voteType}voting:`, error);
-    }
-  };
 
   return (
     <>
@@ -94,21 +93,16 @@ export default function Physician() {
                 <Link href={`/pages/doctor/${doctor.id}`} className="hero-btn">
                   Read More
                 </Link>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly' }}>
                 <div>
-                <MdReviews />
-                <span style={{ padding: '0 5px' }}>{doctor.commentscount}</span>
+                  <MdReviews color="blue"  />
+                  <span >{doctor.review_count}</span>
                 </div>
-                <div onClick={() => handleVote(doctor.id, 'up')} style={{ cursor: 'pointer' }}>
-                  <FaThumbsUp />
-                  <span style={{ padding: '0 5px' }}>{doctor.votecount}</span>
-                </div>
-                <div onClick={() => handleVote(doctor.id, 'down')} style={{ cursor: 'pointer' }}>
-                  <FaThumbsDown />
-                  <span style={{ padding: '0 5px' }}>{doctor.downcount}</span>
+                <div>
+                  <FaStar color="blue" />
+                  <span>{doctor.average_rating.toFixed(1)} ({doctor.review_count})</span>
                 </div>
               </div>
+    
             </div>
           ))
         )}
