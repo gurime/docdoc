@@ -6,7 +6,7 @@ import supabase from "@/app/Config/supabase";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { FaThumbsDown, FaThumbsUp } from "react-icons/fa";
-import { IoChatboxSharp } from "react-icons/io5";
+import { MdReviews } from "react-icons/md";
 import { v4 as uuidv4 } from 'uuid';
 
 interface Doctor {
@@ -97,8 +97,8 @@ export default function Physician() {
               </div>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly' }}>
                 <div>
-                  <IoChatboxSharp />
-                  <span style={{ padding: '0 5px' }}>{doctor.commentscount}</span>
+                <MdReviews />
+                <span style={{ padding: '0 5px' }}>{doctor.commentscount}</span>
                 </div>
                 <div onClick={() => handleVote(doctor.id, 'up')} style={{ cursor: 'pointer' }}>
                   <FaThumbsUp />

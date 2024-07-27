@@ -5,6 +5,7 @@ import { getDoctor } from '../lib';
 import Goback from '@/app/components/goback';
 import ReviewComponent from '@/app/components/Review';
 import AppointmentComponent from '@/app/components/Appointment';
+import LeaveReviewComponent from '@/app/components/LeaveReview';
 
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<{ title: string }> {
 const articleId: string | undefined = params.id;
@@ -48,8 +49,11 @@ export default async function DoctorDetailsPage({ params }: { params: { id: stri
       <Navbar />
       <div className="DoctorProfileContainer">
   <div className="profileImgBackground">
-    <h1 className="doctorName">{doctor.doctorname}</h1>
+    <LeaveReviewComponent articleId={articleId}/>
+    <h2 className="doctorName">{doctor.doctorname}</h2>
     <h2 className="doctorRole">{doctor.role}</h2>
+        
+
   </div>
   
   <img src={doctor.coverimage} alt={`${doctor.doctorname}`} className="doctorImage" />
@@ -57,7 +61,6 @@ export default async function DoctorDetailsPage({ params }: { params: { id: stri
   <div className="doctorContent">
     <h3>About {doctor.doctorname}</h3>
     <p>{doctor.content}</p>
-    
     <div className="doctorDetails">
       <h4>Specialties:</h4>
       <p>{doctor.specialties}</p>

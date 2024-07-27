@@ -20,26 +20,27 @@ const AppointmentComponent: React.FC<AppointmentComponentProps> = ({ articleId }
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
-  const [doctors, setDoctors] = useState<Array<{ id: string, doctorname: string }>>([]);
-  const [selectedDoctorId, setSelectedDoctorId] = useState<string>('');
   const [appointmentSet, setAppointmentSet] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [doctorName, setDoctorName] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchDoctors = async () => {
+    const fetchDoctorName = async () => {
       const { data, error } = await supabase
         .from('doctors')
-        .select('id, doctorname');
-      
+        .select('doctorname')
+        .eq('id', articleId)
+        .single();
+
       if (error) {
-        console.error('Error fetching doctors:', error);
+        console.error('Error fetching doctor name:', error);
       } else {
-        setDoctors(data || []);
+        setDoctorName(data?.doctorname || null);
       }
     };
 
-    fetchDoctors();
-  }, []);
+    fetchDoctorName();
+  }, [articleId]);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => {
@@ -62,15 +63,16 @@ const AppointmentComponent: React.FC<AppointmentComponentProps> = ({ articleId }
 
   const handleDateChange = (date: Date) => setSelectedDate(date);
   const handleTimeChange = (event: React.ChangeEvent<HTMLSelectElement>) => setSelectedTime(event.target.value);
+
   const handleScheduleAppointment = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setErrorMessage('');
     setSuccessMessage('');
-  
+
     try {
       const appointmentData = {
-        doctor_id: selectedDoctorId,
+        doctor_id: articleId, // Use articleId instead of doctor_name
         first_name: firstName,
         last_name: lastName,
         phone_number: phoneNumber,
@@ -79,24 +81,21 @@ const AppointmentComponent: React.FC<AppointmentComponentProps> = ({ articleId }
         appointment_time: selectedTime,
         email: email || null,
       };
-  
-      const { data, error } = await supabase
-        .from('appointments')
-        .insert([appointmentData]);
-  
+
+      const { error } = await supabase.from('appointments').insert([appointmentData]);
+
       if (error) throw error;
-  
+
       setSuccessMessage('Appointment scheduled successfully!');
       setAppointmentSet(true);
       setShowConfirmation(true);
-      resetForm();
       setTimeout(() => {
         setShowConfirmation(false);
         closeModal();
       }, 3000);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error scheduling appointment:', error);
-      setErrorMessage('Error scheduling appointment. Please try again.');
+      setErrorMessage(`Error scheduling appointment: ${error.message || 'Please try again.'}`);
     } finally {
       setIsLoading(false);
     }
@@ -106,53 +105,53 @@ const AppointmentComponent: React.FC<AppointmentComponentProps> = ({ articleId }
       <button onClick={openModal} className="book-appointment-button">Book an Appointment</button>
 
 {isModalOpen && (
-  <div className="modal-overlay">
-    <div className="modal-content">
-      {showConfirmation ? (
-        <div className="confirmation-message">
-          <Check size={48} color="green" />
-          <h2>Appointment Set!</h2>
-          <p>Your appointment has been successfully scheduled.</p>
-          <Calendar size={24} className="calendar-icon" />
-          <p>{selectedDate.toLocaleDateString()} at {selectedTime}</p>
-        </div>
-      ) : (
-        <>
-          <h2 className="modal-title">Schedule an Appointment</h2>
-          <form onSubmit={handleScheduleAppointment} className="appointment-form">
-            <div className="form-group">
+<div className="modal-overlay">
+<div className="modal-content">
+{showConfirmation ? (
+<div className="confirmation-message">
+<Check size={48} color="green" />
+<h2>Appointment Set!</h2>
+<p>Your appointment has been successfully scheduled.</p>
+<Calendar size={24} className="calendar-icon" />
+<p>{selectedDate.toLocaleDateString()} at {selectedTime}</p>
+</div>
+) : (
+
+<>
+<h2 className="modal-title">Schedule an Appointment</h2>
+<form onSubmit={handleScheduleAppointment} className="appointment-form">
+<div className="form-group">
           
-                {doctors.map((doctor) => (
-                  <div key={doctor.id} >
-                         <p style={{
-                      marginBottom:'0 0 20px 0',
-                      borderBottom:'solid 1px #155e75',
-                      lineHeight:'2'
-                    }} className="form-label">{doctor.doctorname}</p>
-                  </div>
-                ))}
-              <label htmlFor="firstName" className="form-label">Patient First Name:</label>
-              <input
-                type="text"
-                id="firstName"
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-                required
-                className="form-input"
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="lastName" className="form-label">Patient Last Name:</label>
-              <input
-                type="text"
-                id="lastName"
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
-                required
-                className="form-input"
-              />
-            </div>
-            <div className="form-group">
+
+<p style={{
+marginBottom:'0 0 20px 0',
+borderBottom:'solid 1px #155e75',
+lineHeight:'2'
+}} className="form-label">{doctorName}</p>
+
+
+<label htmlFor="firstName" className="form-label">Patient First Name:</label>
+<input
+type="text"
+id="firstName"
+value={firstName}
+onChange={(e) => setFirstName(e.target.value)}
+required
+className="form-input"/>
+</div>
+
+<div className="form-group">
+<label htmlFor="lastName" className="form-label">Patient Last Name:</label>
+<input
+type="text"
+id="lastName"
+value={lastName}
+onChange={(e) => setLastName(e.target.value)}
+required
+className="form-input"/>
+</div>
+
+<div className="form-group">
               <label htmlFor="email" className="form-label">Patient Email (optional):</label>
               <input
                 type="email"
