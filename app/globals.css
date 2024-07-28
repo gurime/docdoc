@@ -214,6 +214,94 @@ height: 50px;
   margin: 10px 0 0 0px;
 }
 
+.physiciansBG {
+  background: url('./img/bg-doc.jpg');
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  height: 100svh; /* Adjusted to viewport height */
+    position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-align: center;
+}
+
+.physiciansBG::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Dark overlay for readability */
+  z-index: 1;
+}
+
+.jumbotron-content {
+  position: relative;
+  z-index: 2;
+}
+
+.jumbotron-title {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.jumbotron-subtitle {
+  font-size: 1.5rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.jumbotron-button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  text-align: center;
+  cursor: pointer;
+  font-size: 1rem;
+  text-decoration: none;
+  margin-top: 1rem; /* Space above the button */
+}
+
+.jumbotron-button:hover {
+  background-color: #0056b3;
+}
+
+@media(max-width:1500px){
+  .physiciansBG{
+    height: 800px;
+  }
+}
+@media(max-width:1100px){
+  .physiciansBG{
+    height: 600px;
+  }
+}
+@media(max-width:768px){
+  .physiciansBG{
+    height: 500px;
+   
+  }
+  .jumbotron-title {
+    font-size: 2rem; /* Adjust font size for smaller screens */
+  }
+
+  .jumbotron-subtitle {
+    font-size: 1rem; /* Adjust font size for smaller screens */
+  }
+}
+@media(max-width:500px){
+  .physiciansBG{
+    height: 300px;
+   
+  }
+}
+
 /* Doctor's name styling */
 .doctorName {
   margin: 0;

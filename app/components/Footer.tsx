@@ -32,8 +32,7 @@ return (
     <div className="footer-tablebox"> 
       <div className="footer-headline">Patient Care</div>
       <ul className="footer-navlink">
-        <li><Link href='#!'>Find a Doctor</Link></li>
-        <li><Link href='#!'>Patient Portal</Link></li>
+        <li><Link href='/pages/Patient'>Patient Portal</Link></li>
         <li><Link href='#!'>Appointments</Link></li>
         <li><Link href='#!'>Billing & Insurance</Link></li>
         <li><Link href='#!'>Patient Resources</Link></li>
@@ -128,7 +127,7 @@ textAlign:'center'
 
 <div className="footer-logo-box">
 
-<Image title='To Top' width={36} onClick={scrollTo}  src={footLogo} alt="..." />
+<Image style={{cursor:'pointer'}} title='To Top' width={36} onClick={scrollTo}  src={footLogo} alt="..." />
 
 </div>
 </footer>

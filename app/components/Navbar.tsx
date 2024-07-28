@@ -157,6 +157,7 @@ export default function Navbar() {
             <span className="sm-name">Guest</span>
           )}
           <Link href="/">Home</Link>
+          <Link href="/pages/Patient">Patient</Link>
           <Link href="/pages/Physicians">Physicians</Link>
           <Link href='#!' onClick={toggleFooter}>More:</Link>
         </div>

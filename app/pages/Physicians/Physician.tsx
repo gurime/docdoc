@@ -8,7 +8,6 @@ import React, { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa";
 import { MdReviews } from "react-icons/md";
 import { v4 as uuidv4 } from 'uuid';
-
 interface Doctor {
   id: string;
   doctorname: string;
@@ -75,6 +74,15 @@ export default function Physician() {
   return (
     <>
       <Navbar />
+      <div className="physiciansBG">
+        <div className="jumbotron-content">
+          <h1 className="jumbotron-title">Meet Our Physicians</h1>
+          <p className="jumbotron-subtitle">Providing exceptional care and expertise to ensure your well-being.</p>
+          <Link href="/pages/FindDocotor">
+         <button className="jumbotron-button" >Find a Doctor</button> 
+          </Link>
+        </div>
+      </div>
       <div className="grid-container">
         {loading ? (
           <p>Loading...</p>
