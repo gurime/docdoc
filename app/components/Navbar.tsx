@@ -7,24 +7,59 @@ import Image from 'next/image';
 import navlogo from '../img/doc_care.png';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
+import supabase from '../Config/supabase';
 
 type SearchResult = {
   id: string;
   doctorname: string;
   role: string;
   created_at: string;
-  coverimage:string;
+  coverimage: string;
+};
+
+type UserData = {
+  id: string;
+  first_name: string;
+  last_name: string;
 };
 
 export default function Navbar() {
   const router = useRouter();
   const [isSignedIn, setIsSignedIn] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
   const [isFooterVisible, setIsFooterVisible] = useState(false);
   const [isOverlayActive, setIsOverlayActive] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
-  const [names, setNames] = useState<[string, string] | []>([]);
+  const [userData, setUserData] = useState<UserData | null>(null);
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+      if (sessionError) {
+        console.error("Error fetching session:", sessionError);
+        return;
+      }
+    
+      if (session) {
+        setIsSignedIn(true);
+    
+        const { data, error } = await supabase
+          .from('users')
+          .select('id, first_name, last_name')  
+          .eq('uuid', session.user.id)
+          .single();
+    
+        if (error) {
+        } else if (data) {
+          setUserData(data);
+        } else {
+        }
+      } else {
+        setIsSignedIn(false);
+        setUserData(null);
+      }
+    };
+    fetchUserData();
+  }, []);
 
   const overlayStyle: React.CSSProperties = {
     position: 'fixed',
@@ -48,13 +83,8 @@ export default function Navbar() {
       const response = await axios.get('/api/search', {
         params: { term: searchTerm },
       });
-      if (response.data.results && response.data.results.length > 0) {
-        setSearchResults(response.data.results);
-        setIsOverlayActive(true);
-      } else {
-        setSearchResults([]);
-        setIsOverlayActive(false);
-      }
+      setSearchResults(response.data.results || []);
+      setIsOverlayActive(true);
     } catch (error) {
       console.error('Error fetching search results:', error);
       setSearchResults([]);
@@ -102,64 +132,67 @@ export default function Navbar() {
   return (
     <>
       <div className="nav">
-        <Image placeholder="blur" onClick={() => router.push('/')} src={navlogo} width={140} alt='...' />
+        <Image
+          placeholder="blur"
+          onClick={() => router.push('/')}
+          src={navlogo}
+          width={140}
+          alt="Doctor Care Logo"
+        />
         <div style={overlayStyle}></div>
 
         <form style={{ width: '100%', position: 'relative' }} onSubmit={(e) => e.preventDefault()}>
-  <input
-    placeholder="Search Doctor Care"
-    type="search"
-    spellCheck={false}
-    dir="auto"
-    value={searchTerm}
-    onChange={handleSearchInputChange}
-  />
-  {isOverlayActive && (
-    <div className="search-results-container">
-      <div className="search-results">
-        {searchResults.length > 0 ? (
-          searchResults.map((doctor) => (
-            <div key={doctor.id || uuidv4()} className="search-result-item">
-              <Link href={`/pages/doctor/${doctor.id}`}>
-                <div className="doctorcard">
-                  <img className="doctorcard-image" src={doctor.coverimage} alt={doctor.doctorname} />
-                  <div className="doctorcard-info">
-                    <p className="doctorcard-name">{doctor.doctorname}</p>
-                    <p className="doctorcard-role">{doctor.role}</p>
-                  </div>
-                </div>
-              </Link>
+          <input
+            placeholder="Search Doctor Care"
+            aria-label="Search Doctor Care"
+
+            type="search"
+            spellCheck={false}
+            dir="auto"
+            value={searchTerm}
+            onChange={handleSearchInputChange}
+          />
+          {isOverlayActive && (
+            <div className="search-results-container">
+              <div className="search-results">
+                {searchResults.length > 0 ? (
+                  searchResults.map((doctor) => (
+                    <div key={doctor.id || uuidv4()} className="search-result-item">
+                      <Link href={`/pages/doctor/${doctor.id}`}>
+                        <div className="doctorcard">
+                          <img className="doctorcard-image" src={doctor.coverimage} alt={doctor.doctorname} />
+                          <div className="doctorcard-info">
+                            <p className="doctorcard-name">{doctor.doctorname}</p>
+                            <p className="doctorcard-role">{doctor.role}</p>
+                          </div>
+                        </div>
+                      </Link>
+                    </div>
+                  ))
+                ) : (
+                  <p>Searching...</p>
+                )}
+              </div>
             </div>
-          ))
-        ) : (
-          <p>Searching...</p>
-        )}
-      </div>
-    </div>
-  )}
-  </form>
+          )}
+        </form>
 
         <div className="navlinks">
-          {isSignedIn ? (
-            isAdmin ? (
-              <span className="sm-name">Guest</span>
-            ) : (
-              <Link href='#!'>
-                {names.length === 2 && (
-                  <>
-                    <span className="sm-name">{names[0]}</span>
-                    <span className="sm-name">{names[1]}</span>
-                  </>
-                )}
-              </Link>
-            )
-          ) : (
-            <span className="sm-name">Guest</span>
-          )}
           <Link href="/">Home</Link>
-          <Link href="/pages/Patient">Patient</Link>
+          {isSignedIn && userData ? (
+           <>
+           <span className="sm-name">{userData.first_name} {userData.last_name}</span>
+           <Link href="/pages/PatientPortal">Patient</Link>
+         </>
+          ) : (
+            <>
+              <Link href='/pages/Register' className="sm-name">Guest</Link>
+              <Link href="/pages/Login">Login</Link>
+              <Link href="/pages/Register">Register</Link>
+            </>
+          )}
           <Link href="/pages/Physicians">Physicians</Link>
-          <Link href='#!' onClick={toggleFooter}>More:</Link>
+          <Link href="#" onClick={toggleFooter}>More:</Link>
         </div>
       </div>
 

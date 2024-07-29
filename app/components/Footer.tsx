@@ -4,12 +4,16 @@ import Link from 'next/link'
 import footLogo from '../img/doc_photo.png'
 import Image from 'next/image'
 import navlogo from '../img/doc_care.png'
+import { useState } from 'react'
 
 const Footer = () => {
 const router = useRouter()
 const scrollTo = () =>{
 window.scroll({top: 0,})
 }  
+
+
+
 
 return (
 <>
@@ -32,11 +36,10 @@ return (
     <div className="footer-tablebox"> 
       <div className="footer-headline">Patient Care</div>
       <ul className="footer-navlink">
-        <li><Link href='/pages/Patient'>Patient Portal</Link></li>
-        <li><Link href='#!'>Appointments</Link></li>
-        <li><Link href='#!'>Billing & Insurance</Link></li>
-        <li><Link href='#!'>Patient Resources</Link></li>
-        <li><Link href='#!'>Visitor Information</Link></li>
+      <li><Link href='/pages/PatientPortal'>Patient Portal</Link></li>
+       <li><Link href='/pages/Appointments'>Appointments</Link></li>
+       <li><Link href='/pages/BillingInsurance'>Billing & Insurance</Link></li>
+       <li><Link href='/pages/PatientResources'>Patient Resources</Link></li>
       </ul>
     </div>
     
@@ -67,7 +70,6 @@ return (
     <div className="footer-tablebox" style={{borderRight:'none',borderLeft:'solid 1px #fff'}}> 
       <div className="footer-headline">Contact Us</div>
       <ul className="footer-navlink" style={{borderBottom:'none'}}>
-        <li><Link href='#!'>Contact Information</Link></li>
         <li><Link href='#!'>Locations</Link></li>
         <li><Link href='#!'>Feedback</Link></li>
         <li><Link href='#!'>Volunteer</Link></li>
