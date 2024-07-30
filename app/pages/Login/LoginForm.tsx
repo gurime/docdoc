@@ -75,7 +75,9 @@ return (
           color:'#fff',
           lineHeight:'2'
          }}>If you need assistance with your account or have any questions, feel free to <Link style={{color:'#fff'}} href="/pages/Contact">contact us</Link>. We’re here to help!</p>
-              {error && <p className="error">{error}</p>}
+              {error && <p style={{
+                    color:'#fff'
+                }} className="error">{error}</p>}
 
       </form>
     </div>

@@ -5,7 +5,7 @@ import React from 'react'
 import ContactForm from './ContactForm'
 
 export const metadata:Metadata = {
-    title:'Contact | Doctor Care '
+    title:'Contact Doctor Care '
 }
 
 export default function page() {

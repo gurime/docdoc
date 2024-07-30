@@ -21,9 +21,8 @@ export default function PatientPortal() {
     }, [router]);
 return (
 <>
-<Navbar/>
+
 Patient Portal
-<Footer/>
 </>
 )
 }

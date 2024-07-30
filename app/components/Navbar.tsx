@@ -45,7 +45,7 @@ export default function Navbar() {
         const { data, error } = await supabase
           .from('users')
           .select('id, first_name, last_name')  
-          .eq('uuid', session.user.id)
+          .eq('id', session.user.id)
           .single();
     
         if (error) {
@@ -129,6 +129,19 @@ export default function Navbar() {
     setIsFooterVisible(!isFooterVisible);
   };
 
+  const handleLogout = async () => {
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) throw error;
+      
+      setIsSignedIn(false);
+      setUserData(null);
+      console.log('Logged out successfully');
+      router.push('/pages/Login');
+    } catch (error) {
+      console.error('Error logging out:', error);
+    }
+  }
   return (
     <>
       <div className="nav">
@@ -181,8 +194,12 @@ export default function Navbar() {
           <Link href="/">Home</Link>
           {isSignedIn && userData ? (
            <>
-           <span className="sm-name">{userData.first_name} {userData.last_name}</span>
+           <span className="sm-name">{userData.first_name} </span>
+
+           <span className='sm-name'>{userData.last_name}</span>
            <Link href="/pages/PatientPortal">Patient</Link>
+           <button onClick={handleLogout}>Logout</button>
+
          </>
           ) : (
             <>
@@ -192,6 +209,8 @@ export default function Navbar() {
             </>
           )}
           <Link href="/pages/Physicians">Physicians</Link>
+          <Link href="/pages/Volunteer">Volunteer</Link>
+          <Link href="/pages/Donate">Donate</Link>
           <Link href="#" onClick={toggleFooter}>More:</Link>
         </div>
       </div>

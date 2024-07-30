@@ -1,5 +1,7 @@
 import { Metadata } from 'next'
 import React from 'react'
+import Navbar from '@/app/components/Navbar'
+import Footer from '@/app/components/Footer'
 import Patient from './Patient'
 export const metadata: Metadata = {
     title:'Doctor Care | Patient Portal',
@@ -9,7 +11,9 @@ export const metadata: Metadata = {
 export default function page() {
 return (
 <>
-<Patient/>
+<Navbar/>
+<Patient />
+<Footer/>
 </>
 )
 }

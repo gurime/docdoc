@@ -118,14 +118,13 @@ body,html {
   
   .navlinks button{
   border: 0;
-  border-radius: 20px;
-  background-color: #0d6efd;
+  background-color: #fd0d0d;
   text-transform: capitalize;
-  padding: 3px 4px;
   letter-spacing: 1px;
   color: #fff;
   cursor: pointer;
-  margin: auto;
+  margin:0 1rem 0 0;
+  padding: 5px;
   transform: translateX(10px);
   }
   
@@ -185,6 +184,161 @@ body,html {
   }
   }
 /* Navbar stops here */
+
+/* home page starts here */
+.HospitalBG{
+  background: url('./img/lady-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  height: 100svh; /* Adjusted to viewport height */
+    position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-align: center;
+}
+
+.HospitalBG::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+@media(max-width:1500px){
+  .HospitalBG{
+    height: 800px;
+  }
+}
+@media(max-width:1100px){
+  .HospitalBG{
+    height: 600px;
+  }
+}
+@media(max-width:768px){
+  .HospitalBG{
+    height: 500px;
+   
+  }
+  .jumbotron-title {
+    font-size: 2rem; /* Adjust font size for smaller screens */
+  }
+
+  .jumbotron-subtitle {
+    font-size: 1rem; /* Adjust font size for smaller screens */
+  }
+}
+@media(max-width:500px){
+  .HospitalBG{
+    height: 300px;
+   
+  }
+}
+
+.hero-section {
+  position: relative;
+  background-image: url('./img/lady-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  color: white;
+  text-align: center;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  padding: 20% 0;
+}
+
+.hero-content h1 {
+  font-size: 4rem;
+  margin-bottom: 0.5rem;
+}
+
+.hero-content p {
+  font-size: 1.25rem;
+}
+
+.hero-content button {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+}
+
+.service-card {
+  background-color: #04856f; /* Background color */
+  border-radius: 1rem; /* Rounded corners */
+  max-width: 30rem; /* Max width of the card */
+  margin: 0 0 1rem; /* Margin for spacing */
+  padding: 2rem; /* Padding inside the card */
+  border-top-left-radius: 0; /* Specific corner rounding */
+  border-bottom-left-radius: 3rem;
+  border-top-right-radius: 3rem;
+  border-bottom-right-radius: 0;
+
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  color: #fff; /* Text color */
+  position: relative; /* For positioning elements inside */
+}
+
+.service-card h3 {
+  margin-top: 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.service-card p {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.service-card button {
+  display: inline-block;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  text-align: center;
+  text-decoration: none;
+  border: none;
+  border-radius: 50px;
+  background: linear-gradient(135deg, #007bff, #00d2ff);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  cursor: pointer;
+  margin-top: 1rem; /* Margin to separate from content above */
+}
+
+.service-card button:hover {
+  background: linear-gradient(135deg, #0056b3, #0099cc);
+  transform: translateY(-2px);
+}
+
+.service-card button:active {
+  background: linear-gradient(135deg, #004494, #007bbf);
+  transform: translateY(0);
+}
+
+/* home page stops here */
 /* Docotor profile page starts here */
 /* Container for the entire profile page */
 .DoctorProfileContainer {

@@ -44,7 +44,7 @@ export default function RegisterForm() {
                 const { error: insertError } = await supabase
                     .from('users')
                     .insert([
-                        { id: user.id, first_name: firstName, last_name: lastName }
+                        { id: user.id, first_name: firstName, last_name: lastName,password,email }
                     ]);
     
                 if (insertError) {
@@ -52,7 +52,6 @@ export default function RegisterForm() {
                     setError(insertError.message);
                     setIsSubmitting(false);
                 } else {
-                    localStorage.setItem('user', JSON.stringify(user));
                     router.push('/pages/PatientPortal');
                 }
             }
@@ -114,7 +113,9 @@ export default function RegisterForm() {
                 <Link style={{ color:'#fff', textDecoration:'none' }} href='/pages/Login'>
                     Already have an account
                 </Link>
-                {error && <p className="error">{error}</p>}
+                {error && <p style={{
+                    color:'#fff'
+                }} className="error">{error}</p>}
             </form>
         </div>
     );

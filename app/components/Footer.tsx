@@ -67,15 +67,7 @@ return (
       </ul>
     </div>
     
-    <div className="footer-tablebox" style={{borderRight:'none',borderLeft:'solid 1px #fff'}}> 
-      <div className="footer-headline">Contact Us</div>
-      <ul className="footer-navlink" style={{borderBottom:'none'}}>
-        <li><Link href='#!'>Locations</Link></li>
-        <li><Link href='#!'>Feedback</Link></li>
-        <li><Link href='#!'>Volunteer</Link></li>
-        <li><Link href='#!'>Donate</Link></li>
-      </ul>
-    </div>
+  
     
   </div>
 

@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
+import HomePage from "./components/HomePage";
 
 export const metadata: Metadata = {
   title: 'Doctor Care',
@@ -12,6 +13,7 @@ export default function Home() {
   return (
     <>
 <Navbar/>
+<HomePage/>
 <Footer/>
     </>
   );
