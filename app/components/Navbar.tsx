@@ -146,7 +146,6 @@ export default function Navbar() {
     <>
       <div className="nav">
         <Image
-          placeholder="blur"
           onClick={() => router.push('/')}
           src={navlogo}
           width={140}

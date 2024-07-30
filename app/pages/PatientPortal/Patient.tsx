@@ -5,6 +5,8 @@ import Navbar from '@/app/components/Navbar'
 import supabase from '@/app/Config/supabase';
 import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react'
+import DoctorList from './DoctorList';
+import AppointmentForm from './AppointmentForm';
 
 export default function PatientPortal() {
     const router = useRouter();
@@ -22,7 +24,11 @@ export default function PatientPortal() {
 return (
 <>
 
-Patient Portal
+<div className="patient-portal">
+      <h1 style={{maxWidth:'80rem',margin:'auto'}}>Patient Portal</h1>
+      <DoctorList />
+      <AppointmentForm />
+    </div>
 </>
 )
 }
