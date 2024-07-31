@@ -190,13 +190,15 @@ export default function Navbar() {
         </form>
 
         <div className="navlinks">
-          <Link href="/">Home</Link>
+          <Link href="/">Home</Link>    <Link href="/pages/Physicians">Physicians</Link>
+          <Link href="/pages/Donate">Donate</Link>
           {isSignedIn && userData ? (
-           <>
+           <>        
+              <Link href="/pages/PatientPortal">Patient</Link>
+
            <span className="sm-name">{userData.first_name} </span>
 
            <span className='sm-name'>{userData.last_name}</span>
-           <Link href="/pages/PatientPortal">Patient</Link>
            <button onClick={handleLogout}>Logout</button>
 
          </>
@@ -207,9 +209,7 @@ export default function Navbar() {
               <Link href="/pages/Register">Register</Link>
             </>
           )}
-          <Link href="/pages/Physicians">Physicians</Link>
-          <Link href="/pages/Volunteer">Volunteer</Link>
-          <Link href="/pages/Donate">Donate</Link>
+      
           <Link href="#" onClick={toggleFooter}>More:</Link>
         </div>
       </div>

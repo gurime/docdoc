@@ -23,6 +23,8 @@ const AppointmentComponent: React.FC<AppointmentComponentProps> = ({ articleId }
   const [appointmentSet, setAppointmentSet] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [doctorName, setDoctorName] = useState<string | null>(null);
+  const [isUserSignedIn, setIsUserSignedIn] = useState<boolean>(false);
+
 
   useEffect(() => {
     const fetchDoctorName = async () => {

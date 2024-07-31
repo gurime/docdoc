@@ -88,9 +88,9 @@ const DoctorList: React.FC = () => {
   return (
     <div className="doctor-list">
       <h2>Your Doctors</h2>
-      <div className="doctor-card" style={{ backgroundColor: 'transparent' }}>
+      <div className="doctor-card">
   <Link href={`/pages/doctor/${doctor.id}`}>
-  <img width={140} src={doctor.coverimage} alt={doctor.doctorname} /></Link>
+  <img width={350} src={doctor.coverimage} alt={doctor.doctorname} /></Link>
         <h3>{doctor.doctorname}</h3>
         <p>{doctor.role}</p>
         <p>{doctor.specialties}</p>
