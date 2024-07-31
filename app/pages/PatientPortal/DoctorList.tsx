@@ -1,52 +1,100 @@
 'use client'
 import supabase from '@/app/Config/supabase';
 import Image from 'next/image';
+import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
+import { ClipLoader } from 'react-spinners';
 
 interface Doctor {
     id: string;
     doctorname: string;
-    role:string;
-    specialties:string;
-    coverimage:string;
+    role: string;
+    specialties: string;
+    coverimage: string;
   }
-
+  
+  interface User {
+    id: string;
+    doctor_id: string;
+  }
 
 
 const DoctorList: React.FC = () => {
     const [doctorId, setDoctorId] = useState('');
-    const [doctors, setDoctors] = useState<Doctor[]>([]);
+    const [doctor, setDoctor] = useState<Doctor | null>(null);
     const [loading, setLoading] = useState(true);
   
-
     useEffect(() => {
-        const fetchDoctors = async () => {
-          const { data, error } = await supabase.from('doctors').select('*');
-          if (error) {
-            console.error('Error fetching doctors:', error);
-          } else {
-            setDoctors(data);
+        const fetchCurrentUserDoctor = async () => {
+          try {
+            // First, get the current user
+            const { data: { user }, error: userError } = await supabase.auth.getUser();
+            
+            if (userError) throw userError;
+            
+            if (!user) {
+              console.error('No user logged in');
+              setLoading(false);
+              return;
+            }
+    
+            // Then, get the user's details including their doctor_id
+            const { data: userData, error: userDataError } = await supabase
+              .from('users')
+              .select('doctor_id')
+              .eq('id', user.id)
+              .single();
+    
+            if (userDataError) throw userDataError;
+    
+            if (!userData.doctor_id) {
+              console.log('User has no assigned doctor');
+              setLoading(false);
+              return;
+            }
+    
+            // Finally, fetch the doctor's information
+            const { data: doctorData, error: doctorError } = await supabase
+              .from('doctors')
+              .select('*')
+              .eq('id', userData.doctor_id)
+              .single();
+    
+            if (doctorError) throw doctorError;
+    
+            setDoctor(doctorData);
+          } catch (error) {
+            console.error('Error fetching doctor:', error);
+          } finally {
+            setLoading(false);
           }
-          setLoading(false);
         };
     
-        fetchDoctors();
+        fetchCurrentUserDoctor();
       }, []);
+    
+    
+    
+      if (!doctor) {
+        return <div style={{
+            color:'#fff',
+            display:'flex',
+            alignItems:'center',
+            flexDirection:'column',
+            justifyContent:'center',
+        }}>No doctor assigned 
+        <ClipLoader color="#fff" loading={loading} size={50} /></div>;
+      }
   return (
     <div className="doctor-list">
       <h2>Your Doctors</h2>
-      <ul>
-        {doctors.map((doctor) => (
-          <li key={doctor.id} className="doctor-card" style={{
-            backgroundColor:'transparent'
-          }}>
-            <img  width={140} src={doctor.coverimage} alt='...'/>
-            <h3>{doctor.doctorname}</h3>
-            <p>{doctor.role}</p>
-            <p>{doctor.specialties}</p>
-          </li>
-        ))}
-      </ul>
+      <div className="doctor-card" style={{ backgroundColor: 'transparent' }}>
+  <Link href={`/pages/doctor/${doctor.id}`}>
+  <img width={140} src={doctor.coverimage} alt={doctor.doctorname} /></Link>
+        <h3>{doctor.doctorname}</h3>
+        <p>{doctor.role}</p>
+        <p>{doctor.specialties}</p>
+      </div>
     </div>
   );
 };

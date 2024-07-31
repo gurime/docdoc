@@ -130,7 +130,7 @@ lineHeight:'2'
 }} className="form-label">{doctorName}</p>
 
 
-<label htmlFor="firstName" className="form-label">Patient First Name:</label>
+<label style={{color:'#000'}} htmlFor="firstName" className="form-label">Patient First Name:</label>
 <input
 type="text"
 id="firstName"
@@ -141,7 +141,7 @@ className="form-input"/>
 </div>
 
 <div className="form-group">
-<label htmlFor="lastName" className="form-label">Patient Last Name:</label>
+<label style={{color:'#000'}} htmlFor="lastName" className="form-label">Patient Last Name:</label>
 <input
 type="text"
 id="lastName"
@@ -152,7 +152,8 @@ className="form-input"/>
 </div>
 
 <div className="form-group">
-              <label htmlFor="email" className="form-label">Patient Email (optional):</label>
+              <label
+               style={{color:'#000'}} htmlFor="email" className="form-label">Patient Email (optional):</label>
               <input
                 type="email"
                 id="email"
@@ -162,7 +163,7 @@ className="form-input"/>
               />
             </div>
             <div className="form-group">
-              <label htmlFor="phoneNumber" className="form-label">Patient Phone Number:</label>
+              <label style={{color:'#000'}} htmlFor="phoneNumber" className="form-label">Patient Phone Number:</label>
               <input
                 type="tel"
                 id="phoneNumber"
@@ -173,7 +174,7 @@ className="form-input"/>
               />
             </div>
             <div className="form-group">
-              <label htmlFor="zipCode" className="form-label">Patient Zip Code:</label>
+              <label style={{color:'#000'}} htmlFor="zipCode" className="form-label">Patient Zip Code:</label>
               <input
                 type="text"
                 id="zipCode"
@@ -184,7 +185,7 @@ className="form-input"/>
               />
             </div>
             <div className="form-group">
-              <label htmlFor="appointmentDate" className="form-label">Appointment Date:</label>
+              <label style={{color:'#000'}} htmlFor="appointmentDate" className="form-label">Appointment Date:</label>
               <input
                 type="date"
                 id="appointmentDate"
@@ -196,7 +197,7 @@ className="form-input"/>
               />
             </div>
             <div className="form-group">
-              <label htmlFor="appointmentTime" className="form-label">Appointment Time:</label>
+              <label style={{color:'#000'}} htmlFor="appointmentTime" className="form-label">Appointment Time:</label>
               <select
                 id="appointmentTime"
                 value={selectedTime}
