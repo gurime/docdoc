@@ -33,7 +33,6 @@ const DoctorList: React.FC = () => {
             if (userError) throw userError;
             
             if (!user) {
-              console.error('No user logged in');
               setLoading(false);
               return;
             }
@@ -48,7 +47,6 @@ const DoctorList: React.FC = () => {
             if (userDataError) throw userDataError;
     
             if (!userData.doctor_id) {
-              console.log('User has no assigned doctor');
               setLoading(false);
               return;
             }
@@ -64,7 +62,6 @@ const DoctorList: React.FC = () => {
     
             setDoctor(doctorData);
           } catch (error) {
-            console.error('Error fetching doctor:', error);
           } finally {
             setLoading(false);
           }
@@ -87,7 +84,7 @@ const DoctorList: React.FC = () => {
       }
   return (
     <div className="doctor-list">
-      <h2>Your Doctors</h2>
+      <h2>Your Doctor</h2>
       <div className="doctor-card">
   <Link href={`/pages/doctor/${doctor.id}`}>
   <img width={350} src={doctor.coverimage} alt={doctor.doctorname} /></Link>

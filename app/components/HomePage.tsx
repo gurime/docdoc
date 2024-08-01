@@ -1,10 +1,35 @@
 'use client'
 import { Calendar, Clock, FileText, MapPin, Phone, Stethoscope, Users } from 'lucide-react'
 import { useRouter } from 'next/navigation';
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import supabase from '../Config/supabase';
 
 export default function HomePage() {
   const router = useRouter();
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    async function getUser() {
+      const { data: { user }, error } = await supabase.auth.getUser();
+      if (error) {
+        return;
+      }
+      if (user) {
+        const { data: userData, error: userDataError } = await supabase
+          .from('users')
+          .select('*')
+          .eq('id', user.id)
+          .single();
+        
+        if (userDataError) {
+          return;
+        }
+        setUser(userData);
+      }
+    }
+
+    getUser();
+  }, []);
 
 return (
 <>
@@ -65,8 +90,9 @@ return (
     <h3>Patient Portal</h3>
     <div className="service-card-content">
       <p>Access your medical records, test results, and communicate with your healthcare team securely online.</p>
-      <button onClick={() => router.push('/pages/PatientPortal')}>Log In</button>
-    </div>
+      <button onClick={() => router.push('/pages/PatientPortal')}>
+                {user ? 'Patient Portal' : 'Log In'}
+              </button>    </div>
   </div>
 
   <div className="service-card">

@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react'
 import DoctorList from './DoctorList';
 import AppointmentForm from './AppointmentForm';
+import MedicalRecords from './MedicalRecords';
 
 export default function PatientPortal() {
     const router = useRouter();
@@ -24,6 +25,7 @@ return (
 <div className="patient-portal">
       <h1 style={{maxWidth:'80rem',margin:'auto'}}>Patient Portal</h1>
       <DoctorList />
+      <MedicalRecords/>
       <AppointmentForm />
     </div>
 </>
