@@ -86,7 +86,6 @@ export default function Navbar() {
       setSearchResults(response.data.results || []);
       setIsOverlayActive(true);
     } catch (error) {
-      console.error('Error fetching search results:', error);
       setSearchResults([]);
       setIsOverlayActive(false);
     }
@@ -136,10 +135,8 @@ export default function Navbar() {
       
       setIsSignedIn(false);
       setUserData(null);
-      console.log('Logged out successfully');
       router.push('/pages/Login');
     } catch (error) {
-      console.error('Error logging out:', error);
     }
   }
   return (
@@ -172,8 +169,8 @@ export default function Navbar() {
                     <div key={doctor.id || uuidv4()} className="search-result-item">
                       <Link href={`/pages/doctor/${doctor.id}`}>
                         <div className="doctorcard">
-                          <img className="doctorcard-image" src={doctor.coverimage} alt={doctor.doctorname} />
-                          <div className="doctorcard-info">
+                         
+                          <div className="doctorcard-info"> <img className="doctorcard-image" src={doctor.coverimage} alt={doctor.doctorname} />
                             <p className="doctorcard-name">{doctor.doctorname}</p>
                             <p className="doctorcard-role">{doctor.role}</p>
                           </div>

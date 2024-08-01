@@ -35,6 +35,12 @@ body,html {
     color: #111;
     letter-spacing: 1px;
   }
+
+  .search-results{
+    display: flex;
+    justify-items: center;
+    justify-content: center;
+  }
   
   .search-results-container {
     background-color: #fff;
@@ -283,32 +289,52 @@ body,html {
   border-radius: 0.25rem;
   cursor: pointer;
 }
+.service-cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 2rem;
+  padding: 2rem;
+}
 
 .service-card {
-  background-color: #04856f; /* Background color */
-  border-radius: 1rem; /* Rounded corners */
-  max-width: 30rem; /* Max width of the card */
-  margin: 0 0 1rem; /* Margin for spacing */
-  padding: 2rem; /* Padding inside the card */
-  border-top-left-radius: 0; /* Specific corner rounding */
-  border-bottom-left-radius: 3rem;
-  border-top-right-radius: 3rem;
-  border-bottom-right-radius: 0;
+  background-color: #ffffff;
+  border-radius: 1rem;
+  width: calc(33.333% - 1.33rem);
+  margin-bottom: 2rem;
+  padding: 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  color: #333;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
 
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-  color: #fff; /* Text color */
-  position: relative; /* For positioning elements inside */
+.service-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
 }
 
 .service-card h3 {
   margin-top: 0;
   font-size: 1.5rem;
   font-weight: bold;
+  margin-bottom: 1rem;
+  color: #04856f;
+}
+
+.service-card-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .service-card p {
   font-size: 1rem;
-  line-height: 1.5;
+  line-height: 1.6;
+  flex-grow: 1;
+  margin-bottom: 1.5rem;
 }
 
 .service-card button {
@@ -321,21 +347,54 @@ body,html {
   text-decoration: none;
   border: none;
   border-radius: 50px;
-  background: linear-gradient(135deg, #007bff, #00d2ff);
+  background: linear-gradient(135deg, #04856f, #00d2ff);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   transition: background-color 0.3s ease, transform 0.3s ease;
   cursor: pointer;
-  margin-top: 1rem; /* Margin to separate from content above */
+  margin-top: auto;
+  align-self: flex-start;
 }
 
 .service-card button:hover {
-  background: linear-gradient(135deg, #0056b3, #0099cc);
+  background: linear-gradient(135deg, #036b59, #00a3cc);
   transform: translateY(-2px);
 }
 
 .service-card button:active {
-  background: linear-gradient(135deg, #004494, #007bbf);
+  background: linear-gradient(135deg, #025143, #007a99);
   transform: translateY(0);
+}
+
+.card-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: #04856f;
+}
+
+.emergency-contact {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #d32f2f;
+}
+
+.emergency-contact svg {
+  margin-right: 0.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+  .service-card {
+    width: calc(50% - 1rem);
+  }
+}
+
+@media (max-width: 768px) {
+  .service-card {
+    width: 100%;
+  }
 }
 
 /* home page stops here */
@@ -343,29 +402,157 @@ body,html {
 /* Container for the entire profile page */
 .DoctorProfileContainer {
   position: relative;
-  display: grid;
-  grid-template-rows: auto 1fr;
+ 
   max-width: 80rem;
   margin: 0 auto;
   border-radius: 8px;
-  overflow: hidden;
   background: #ffffff;
+
+}
+
+
+
+/* Profile image background */
+.profileImgBackground {
+  background: linear-gradient(135deg, #3b40dd, #3199d1);
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  color: #ffffff;
+  padding: 50px;
+  position: relative;
+}
+
+/* Doctor's image */
+.doctorImage {
+  width: 150px;
+  height: 150px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+    border-radius: 50%;
+    border: 4px solid #ffffff;
+    object-fit: cover;
+    z-index: 1;
+    top: 80px;
+}
+
+/* Doctor's name styling */
+.doctorName {
+  margin: 0;
+  font-weight: 600;
+  font-size: 2rem;
+  text-align: center;
+}
+
+/* Doctor's role styling */
+.doctorRole {
+  margin: 8px 0 0;
+  font-weight: 400;
+  font-size: 1.2rem;
+  color: #e0f0ff;
+  text-align: center;
+}
+
+/* Content styling for doctor's information */
+.doctorContent {
+  padding: 1rem;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* Additional details section styling */
+.doctorDetails {
+  margin-top: 30px;
+  border-radius: 8px;
+}
+
+.doctorDetails h4 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #2c3e50;
+}
+
+.doctorDetails p {
+  font-size: 1rem;
+}
+
+/* Footer section for action buttons */
+.doctorFooter {
+  margin-top: 40px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+/* Button styling */
+.doctorFooter button {
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 500;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.doctorFooter button:first-child {
+  background-color: #3b40dd;
+  color: #ffffff;
+}
+
+.doctorFooter button:last-child {
+  background-color: #00948d;
+  color: #ffffff;
+}
+
+.doctorFooter button:hover {
+  transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Background and text styling for the profile image section */
-.profileImgBackground {
-  background:  linear-gradient(#3b40dd, #3199d1);
-  background-size: cover;
-  display: flex;
-  place-items: flex-end;
-height: 50px;
-  justify-content: center;
-  color: #ffffff;
-  border-top-right-radius: 30px;
-  border-top-left-radius: 30px;
-  margin: 10px 0 0 0px;
+/* Responsive styles */
+@media (max-width: 768px) {
+  .profileImgBackground {
+    height: 180px;
+  }
+
+  .doctorImage {
+    width: 120px;
+    height: 120px;
+  }
+
+  .doctorName {
+    font-size: 1.8rem;
+  }
+
+  .doctorRole {
+    font-size: 1.1rem;
+  }
+
+ 
+
+  .doctorDetails {
+    padding: 15px;
+  }
+
+  .doctorFooter {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .doctorFooter button {
+    width: 100%;
+    max-width: 250px;
+  }
 }
+
+/* Docotor profile page stops here */
+/* Container for the entire profile page */
 
 .physiciansBG {
   background: url('./img/bg-doc.jpg');
@@ -455,36 +642,9 @@ height: 50px;
   }
 }
 
-/* Doctor's name styling */
-.doctorName {
-  margin: 0;
-  padding-right: 10px;
-  display: flex;
-  font-weight: 300;
-  align-items: center;
-}
 
-/* Doctor's role styling */
-.doctorRole {
-  margin: 8px 0 0;
-  padding-left: 10px;
-  display: flex;
-  align-items: center;
-  font-weight: 300;
-}
 
-/* Circular profile image styling */
-.doctorImage {
-  position: absolute;
-  left: 0;
-  border-radius: 50%;
-  width: 110px; /* Adjust size as needed */
-  height: 110px; /* Adjust size as needed */
-  border: 4px solid #ffffff; /* Optional: border to highlight image */
-  object-fit: cover;
-  z-index: 1;
-  top: 10px;
-}
+
 
 
 
@@ -589,29 +749,12 @@ h1, h2, h3 {
 .appointment-form button:hover {
   background-color: #0056b3;
 }
-/* Content styling for doctor's information */
-.doctorContent {
-  padding: 80px 20px 20px; /* Added top padding for image overlap */
-  font-size: 1rem;
-  font-weight: 500;
-}
-
-/* Additional details section styling */
-.doctorDetails {
-  margin-top: 20px;
-}
-
-/* Footer section for action buttons */
-.doctorFooter {
-  margin-top: 20px;
-  text-align: center;
-}
 
 /* Button styling for actions */
 .bookAppointmentButton,
 .viewReviewsButton {
   margin: 5px;
-  padding: 10px 20px;
+  padding: 10px;
   font-size: 1rem;
   border: none;
   border-radius: 5px;
@@ -628,12 +771,12 @@ h1, h2, h3 {
   color: white;
 }
 
-@media(max-width:500px){
+/* @media(max-width:500px){
   .profileImgBackground{
     font-size: 12px;
   }
 
-}
+} */
 
 .backbtn {
   padding: 5px 10px;
@@ -713,7 +856,7 @@ h1, h2, h3 {
 
 /* appointment button style starts here */
 .book-appointment-button {
-  padding: 10px 15px;
+  padding: 10px;
   background-color: #007bff;
   color: white;
   border: none;
@@ -860,32 +1003,25 @@ text-align: justify;
   background-color: #d4edda;
   color: #155724;
 }
-
 .review-item {
   margin-bottom: 20px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   padding-bottom: 10px;
   display: flex;
+  justify-content: space-between; /* Ensures even spacing */
   align-items: center;
   font-weight: 300;
+  flex-wrap: wrap;
 }
 
-.review-item-name {
-  flex: 1;
-  text-align: left;
-}
-
-.review-item-rating {
-  flex: 1;
-  text-align: center;
-}
-
+.review-item-name,
+.review-item-rating,
 .review-item-date {
   flex: 1;
-  text-align: right;
+  text-align: center; /* Centers the text within each element */
 }
 
-.review-item h3{
+.review-item h3 {
   font-weight: 300;
 }
 

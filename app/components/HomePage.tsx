@@ -1,8 +1,11 @@
-import { Phone } from 'lucide-react'
-import Link from 'next/link'
+'use client'
+import { Calendar, Clock, FileText, MapPin, Phone, Stethoscope, Users } from 'lucide-react'
+import { useRouter } from 'next/navigation';
 import React from 'react'
 
 export default function HomePage() {
+  const router = useRouter();
+
 return (
 <>
 
@@ -16,22 +19,64 @@ return (
     </section>
 
     <section className="services-section">
-      <div className="grid-container">
-          <div className="service-card">
-  <h3>Schedule Your Appointment</h3>
-  <p>Ready to take the next step in your health journey? Book an appointment with our expert team today. We offer personalized care and flexible scheduling to fit your needs. Don’t wait—secure your spot and start your path to better health.</p>
-  <button>Set Appointment</button>
-</div>
-<div className="service-card">
-  <h3>Emergency Services</h3>
-  <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem' }}>
-    <Phone style={{ marginRight: '1rem', fontSize: '1.5rem', color: '#fff' }} />
-    <p style={{ fontSize: '1.25rem', fontWeight: 'bold', color: '#fff' }}>123-456-7890</p>
+    <div className="service-cards-container">
+  <div className="service-card">
+    <Calendar className="card-icon" />
+    <h3>Schedule an Appointment</h3>
+    <div className="service-card-content">
+      <p>Book your next visit with our expert medical team. We offer flexible scheduling to accommodate your needs.</p>
+      <button onClick={() => router.push('/pages/PatientPortal')}>Book Now</button>
+    </div>
   </div>
-  <p style={{ marginBottom: '2rem' }}>In case of an emergency, please call us immediately. Our dedicated team is available 24/7 to provide urgent care and support. Your health and safety are our top priorities.</p>
-  <button>Contact Us</button>
-</div>
 
+  <div className="service-card">
+    <Stethoscope className="card-icon" />
+    <h3>Our Services</h3>
+    <div className="service-card-content">
+      <p>Explore our comprehensive range of medical services, from preventive care to specialized treatments.</p>
+      <button onClick={() => router.push('#!')}>View Services</button>
+    </div>
+  </div>
+
+  <div className="service-card">
+    <Users className="card-icon" />
+    <h3>Find a Doctor</h3>
+    <div className="service-card-content">
+      <p>Search our directory of experienced physicians and specialists to find the right care for you.</p>
+      <button onClick={() => router.push('/pages/Physicians')}>Search Doctors</button>
+    </div>
+  </div>
+
+  <div className="service-card">
+    <Clock className="card-icon" />
+    <h3>Emergency Services</h3>
+    <div className="service-card-content">
+      <div className="emergency-contact">
+        <Phone />
+        <span>911</span>
+      </div>
+      <p>Our emergency department is open 24/7. For life-threatening emergencies, always call 911.</p>
+      <button onClick={() => router.push('#!')}>Learn More</button>
+    </div>
+  </div>
+
+  <div className="service-card">
+    <FileText className="card-icon" />
+    <h3>Patient Portal</h3>
+    <div className="service-card-content">
+      <p>Access your medical records, test results, and communicate with your healthcare team securely online.</p>
+      <button onClick={() => router.push('/pages/PatientPortal')}>Log In</button>
+    </div>
+  </div>
+
+  <div className="service-card">
+    <MapPin className="card-icon" />
+    <h3>Locations</h3>
+    <div className="service-card-content">
+      <p>Find our hospitals, clinics, and specialized care centers conveniently located near you.</p>
+      <button onClick={() => router.push('#!')}>Find Locations</button>
+    </div>
+  </div>
 </div>
 </section>
 </>

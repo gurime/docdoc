@@ -7,7 +7,7 @@ interface Review {
   id: string;
   uuid: string;
   rating: number;
-  text: string;
+  review_text: string;
   reviewer_name: string;
   created_at: string;
 }
@@ -87,8 +87,10 @@ const ReviewComponent: React.FC<ReviewComponentProps> = ({ articleId }) => {
                     <div key={review.id || uuidv4()} className="review-item" style={{marginBottom: '15px'}}>
                       <h3 className='review-item-name'>{review.reviewer_name}</h3>
                       <p className='review-item-rating'>Rating: {review.rating} / 5</p>
-                      <p className='review-item-date'>{review.text}</p>
-                      <small>{new Date(review.created_at).toLocaleDateString()}</small>
+                      <p className='review-item-date'> <small>{new Date(review.created_at).toLocaleDateString()}</small></p>
+
+                      <p>{review.review_text}</p>
+                     
                     </div>
                   ))}
                 </div>

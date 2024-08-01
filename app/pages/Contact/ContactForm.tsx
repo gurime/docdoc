@@ -56,7 +56,7 @@ export default function ContactForm() {
     };
 return (
 <>
-<div className="register-container">
+<div className="modal-content" style={{background:'teal',width:'100%',maxWidth:'100%',alignItems:'center',flexDirection:'column',display:'flex',maxHeight:'100svh',}}>
    
 <form onSubmit={handleContact} className="register-form">
     <img src={registerimg.src} alt="Register" />

@@ -80,7 +80,6 @@ export default async function DoctorDetailsPage({ params }: { params: { id: stri
     <div className="doctorFooter">
 <AppointmentComponent articleId={articleId}/>
 <ReviewComponent articleId={articleId}/>      
-<Goback/>
     </div>
   </div>
 </div>

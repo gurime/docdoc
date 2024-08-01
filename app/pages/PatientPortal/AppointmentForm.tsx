@@ -208,14 +208,14 @@ onChange={(e) => setLastName(e.target.value)}
 required
 />
                                     </div>
-                                    <div className="form-group">
+<div className="form-group">
                                         <label>Email:</label>
-                                        <input
-                                            type="email"
-                                            value={email}
-                                            onChange={(e) => setEmail(e.target.value)}
-                                            required
-                                        />
+<input
+type="email"
+value={email}
+onChange={(e) => setEmail(e.target.value)}
+required
+/>
                                     </div>
                                     <div className="form-group">
                                         <label>Phone Number:</label>

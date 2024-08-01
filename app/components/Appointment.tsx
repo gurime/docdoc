@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import supabase from '../Config/supabase';
 import { BeatLoader } from 'react-spinners';
 import { Calendar, Check } from 'lucide-react';
+import Link from 'next/link';
 
 interface AppointmentComponentProps {
   articleId: string;
@@ -24,7 +25,7 @@ const AppointmentComponent: React.FC<AppointmentComponentProps> = ({ articleId }
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [doctorName, setDoctorName] = useState<string | null>(null);
   const [isUserSignedIn, setIsUserSignedIn] = useState<boolean>(false);
-
+  const [currentUser, setCurrentUser] = useState<any>(null);
 
   useEffect(() => {
     const fetchDoctorName = async () => {
@@ -42,6 +43,46 @@ const AppointmentComponent: React.FC<AppointmentComponentProps> = ({ articleId }
     };
 
     fetchDoctorName();
+
+    // Check user authentication status
+    const checkAuthStatus = async () => {
+      const { data: { session }, error } = await supabase.auth.getSession();
+      
+      if (error) {
+        console.error('Error checking auth status:', error);
+        return;
+      }
+
+      if (session) {
+        setIsUserSignedIn(true);
+        // Fetch user data from the users table
+        const { data: userData, error: userError } = await supabase
+          .from('users')
+          .select('*')
+          .eq('id', session.user.id)
+          .single();
+
+        if (userError) {
+          console.error('Error fetching user data:', userError);
+        } else {
+          setCurrentUser(userData);
+        }
+      } else {
+        setIsUserSignedIn(false);
+        setCurrentUser(null);
+      }
+    };
+
+    checkAuthStatus();
+
+    // Subscribe to auth state changes
+    const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
+      checkAuthStatus();
+    });
+
+    return () => {
+      authListener.subscription.unsubscribe();
+    };
   }, [articleId]);
 
   const openModal = () => setIsModalOpen(true);
@@ -68,6 +109,10 @@ const AppointmentComponent: React.FC<AppointmentComponentProps> = ({ articleId }
 
   const handleScheduleAppointment = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!isUserSignedIn) {
+      setErrorMessage('You need to be signed in to make an appointment. Please sign in or create an account.');
+      return;
+    }
     setIsLoading(true);
     setErrorMessage('');
     setSuccessMessage('');
@@ -121,6 +166,21 @@ const AppointmentComponent: React.FC<AppointmentComponentProps> = ({ articleId }
 
 <>
 <h2 className="modal-title">Schedule an Appointment</h2>
+{!isUserSignedIn ? (
+<div className="sign-in-message">
+<p>You need to be signed in to make an appointment. Please sign in or create an account.</p>
+<Link style={{ textDecoration:'none',color:'#fff' }} href='/pages/Login'>
+<button  
+className='book-appointment-button '
+style={{
+width:'100%'
+}}>   
+Login  
+</button>           
+</Link>
+
+</div>
+) : (
 <form onSubmit={handleScheduleAppointment} className="appointment-form">
 <div className="form-group">
           
@@ -232,6 +292,7 @@ className="form-input"/>
               {isLoading ? <BeatLoader size={8} color='#fff'/> : 'Schedule Appointment'}
             </button>
           </form>
+          )}
           {errorMessage && <p className={`message error-message`}>{errorMessage}</p>}
           {successMessage && <p className={`message success-message`}>{successMessage}</p>}
           <button onClick={closeModal} className="close-button">Close</button>
