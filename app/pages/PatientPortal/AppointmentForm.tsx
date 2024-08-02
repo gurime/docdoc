@@ -157,7 +157,7 @@ return (
 <>
 <button className='appointment-form book-appointment-button' onClick={openModal}>Make an Appointment</button>
 {isModalOpen && (
-<div className="modal-overlay">
+<div className="modal-overlay" onClick={closeModal}>
 <div className="modal-content" style={{background:'teal'}}>
 {showConfirmation ? (
 <div className="confirmation-message">
@@ -234,7 +234,7 @@ onChange={(e) => setAppointmentTime(e.target.value)}
 required/>
 </div>
 
-<div className="form-group">
+{/* <div className="form-group">
 <label>Doctor:</label>
 <select 
 value={doctorId} 
@@ -245,7 +245,7 @@ required>
 <option key={doctor.id} value={doctor.id}>Dr. {doctor.doctorname}</option>
 ))}
 </select>
-</div>
+</div> */}
 <button type="submit" className="submit-button">Submit</button>
 </div>
 </form>

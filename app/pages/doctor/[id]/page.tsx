@@ -2,7 +2,6 @@ import React from 'react';
 import Navbar from '@/app/components/Navbar';
 import Footer from '@/app/components/Footer';
 import { getDoctor } from '../lib';
-import Goback from '@/app/components/goback';
 import ReviewComponent from '@/app/components/Review';
 import AppointmentComponent from '@/app/components/Appointment';
 import LeaveReviewComponent from '@/app/components/LeaveReview';
