@@ -848,6 +848,59 @@ h1, h2, h3 {
 
 /* Docotor profile page stops here */
 
+/* Appointmentsheet css starts here */
+.appointment-sheet {
+  font-family: Arial, sans-serif;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.sheet-title {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.sheet-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  border: 1px solid #ccc;
+}
+
+.header-row {
+  display: contents;
+}
+
+.header-cell {
+  font-weight: bold;
+  background-color: #f0f0f0;
+  padding: 10px;
+  text-align: left;
+  border-bottom: 2px solid #ccc;
+}
+
+.appointment-row {
+  display: contents;
+}
+
+.cell {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  border-right: 1px solid #eee;
+}
+
+.cell:last-child {
+  border-right: none;
+}
+
+.appointment-row:nth-child(even) .cell {
+  background-color: #f9f9f9;
+}
+/* Appointmentsheet css stops here */
+
 /* pysician page starts here */
 .grid-container {
   display: grid;

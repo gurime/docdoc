@@ -109,7 +109,7 @@ export default function Contact({ isOpen = true, onClose = () => {}, doctorId }:
           email,
           phone,
           subject,
-          message: textmessage
+          textmessage
         };
 
         const { data, error } = await supabase
@@ -126,8 +126,13 @@ export default function Contact({ isOpen = true, onClose = () => {}, doctorId }:
         setFirstName('');
         setLastName('');
         setPhone('');
+        setEmail('');
         setSubject('');
         setTextMessage('');
+        setTimeout(() => {
+          setSuccessMessage('');
+          
+          }, 3000);
       } catch (error) {
         setError(error instanceof Error ? error.message : "An error occurred while sending the message.");
       } finally {
@@ -230,6 +235,8 @@ export default function Contact({ isOpen = true, onClose = () => {}, doctorId }:
                 </select>
               </>
             )}
+
+            
             
             <label style={{ color: '#fff' }} className='form-label' htmlFor="tmessage">Type Your Message</label>
             <textarea

@@ -57,7 +57,7 @@ const [error, setError] = useState<string | null>(null);
     }, []);
 
     if (error) {
-        return <div  className="text-red-500">Error: {error}</div>;
+        return <div  className="error">Error: {error}</div>;
     }
 
     return (

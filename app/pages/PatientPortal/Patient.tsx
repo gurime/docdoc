@@ -40,12 +40,7 @@ export default function PatientPortal({ doctorId }: PatientPortalProps) {
         <h1 style={{maxWidth:'80rem',margin:'auto'}}>Patient Portal</h1>
         <DoctorList />
         <MedicalRecords/>
-        <div style={{
-          display:'flex',
-          justifyContent:'space-evenly',
-          width:'80rem',
-          alignItems:'center'
-        }}>
+        <div className='grid-container'>
           <AppointmentForm />
           <button className='book-appointment-button' onClick={handleOpenContact}>Open Contact Form</button>
           <Contact
