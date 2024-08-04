@@ -37,7 +37,7 @@ export default function PatientPortal({ doctorId }: PatientPortalProps) {
   return (
     <>
       <div className="patient-portal">
-        <h1 style={{maxWidth:'80rem',margin:'auto'}}>Patient Portal</h1>
+        <h1 style={{maxWidth:'80rem',margin:'auto',textAlign:'center'}}>Patient Portal</h1>
         <DoctorList />
         <MedicalRecords/>
         <div className='grid-container'>

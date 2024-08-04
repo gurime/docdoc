@@ -4,7 +4,7 @@ import LoginForm from './LoginForm'
 import Footer from '@/app/components/Footer'
 import { Metadata } from 'next'
 export const metadata: Metadata = {
-    title: 'Doctor Care | Login',
+    title: ' Login | Doctor Care ',
     description: 'Log in to Doctor Care to access your personalized healthcare services and manage your appointments efficiently.',
     keywords: 'Doctor Care, Login, healthcare, patient login, medical services, appointments, health management'
 }

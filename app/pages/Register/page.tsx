@@ -6,7 +6,7 @@ import { Metadata } from 'next'
 
 
 export const metadata: Metadata = {
-    title: 'Doctor Care | Register',
+    title: 'Register | Doctor Care',
     description: 'Register for Doctor Care to access personalized healthcare services and manage your appointments efficiently.',
     keywords: 'Doctor Care, Register, healthcare, patient registration, medical services, appointments, health management'
 }

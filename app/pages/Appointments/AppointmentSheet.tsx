@@ -1,8 +1,13 @@
-'use client'
-import supabase from '@/app/Config/supabase';
+'use client';
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import moment from 'moment';
+import { Loader } from 'lucide-react';
+import supabase from '@/app/Config/supabase';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css'
+import { RiseLoader } from 'react-spinners';
+
 
 interface Appointment {
   id: string;
@@ -26,108 +31,134 @@ interface CurrentUser {
 }
 
 export default function AppointmentSheet() {
-const [appointments, setAppointments] = useState<Appointment[]>([]);
-const [currentUser, setCurrentUser] = useState<CurrentUser | null>(null);
-const [error, setError] = useState<string | null>(null);
-const router = useRouter();
+  const [appointments, setAppointments] = useState<Appointment[]>([]);
+  const [currentUser, setCurrentUser] = useState<CurrentUser | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
-useEffect(() => {
-const checkSessionAndFetchUser = async () => {
-try {
-// Check the session
-const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-if (sessionError) {
-throw sessionError;
-}
-if (!session) {
-router.push('/pages/Login'); 
-return;
-}
+  const router = useRouter();
 
-// Fetch user details if session exists
-const { data: { user }, error: userError } = await supabase.auth.getUser();
-if (userError) {
-setError('Failed to fetch current user');
-} else if (user) {
-const { data, error: userDetailsError } = await supabase
-.from('users')
-.select('first_name, last_name')
-.eq('id', user.id)
-.single();
-if (userDetailsError) {
-setError('Failed to fetch user details');
-} else {
-setCurrentUser({
-id: user.id,
-email: user.email || '',
-first_name: data.first_name || '', 
-last_name: data.last_name || '', 
-});
-}
-}
-} catch (err) {
-setError('An unexpected error occurred');
-}
-};
-checkSessionAndFetchUser();
-}, [router]);
+  useEffect(() => {
+    const checkSessionAndFetchUser = async () => {
+      try {
+        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+        if (sessionError) throw sessionError;
+        if (!session) {
+          router.push('/pages/Login');
+          return;
+        }
 
-useEffect(() => {
-const fetchAppointments = async () => {
-if (!currentUser) return;
-try {
-let { data, error } = await supabase
-.from('appointments')
-.select('*')
-.eq('user_id', currentUser.id)
-.order('appointment_date', { ascending: true })
-.order('appointment_time', { ascending: true });       
-if (error) {
-throw error;
-}        
-if (data && data.length > 0) {
-setAppointments(data);
-} else {
-setAppointments([]);
-}
-} catch (error) {
-setError('Failed to fetch appointments');
-}
-};
-fetchAppointments();
-}, [currentUser]);
-if (error) {
-return <div>{error}</div>; // Display the error message to the user
-}
+        const { data: { user }, error: userError } = await supabase.auth.getUser();
+        if (userError) throw userError;
 
-if (!currentUser) {
-return <div>Loading...</div>;
-}
+        if (user) {
+          const { data, error: userDetailsError } = await supabase
+            .from('users')
+            .select('first_name, last_name')
+            .eq('id', user.id)
+            .single();
+          
+          if (userDetailsError) throw userDetailsError;
 
-return (
+          setCurrentUser({
+            id: user.id,
+            email: user.email || '',
+            first_name: data?.first_name || '',
+            last_name: data?.last_name || '',
+          });
+        }
+      } catch (err) {
+        setError('An unexpected error occurred');
+        console.error(err);
+      }
+    };
+    checkSessionAndFetchUser();
+  }, [router]);
+
+  useEffect(() => {
+    const fetchAppointments = async () => {
+      if (!currentUser) return;
+      try {
+        setLoading(true);
+        const { data, error } = await supabase
+          .from('appointments')
+          .select('*')
+          .eq('user_id', currentUser.id)
+          .order('appointment_date', { ascending: true })
+          .order('appointment_time', { ascending: true });
+        
+        if (error) throw error;
+        setAppointments(data || []);
+      } catch (error) {
+        setError('Failed to fetch appointments');
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchAppointments();
+  }, [currentUser]);
+
+  if (error) {
+    return <div className="text-red-500">{error}</div>;
+  }
+
+  if (!currentUser) {
+return <div 
+style={{
+height:'50svh',
+display:'flex',
+justifyContent:'center',
+alignItems:'center',
+}}>
+<RiseLoader color='teal'
+/></div>;
+  }
+
+  return (
 <div className="appointment-sheet">
-<h2 className="sheet-title">Appointments for {currentUser.first_name} {currentUser.last_name}</h2>
+<h2 className="sheet-title ">
+{loading ? (
+<Skeleton  />
+) : (
+`Appointments for ${currentUser.first_name} ${currentUser.last_name}`
+)}
+</h2>
 <div className="sheet-grid">
-<div className="header-row">
+<div className="header-row ">
 <div className="header-cell">Patient Name</div>
 <div className="header-cell">Doctor</div>
 <div className="header-cell">Date</div>
 <div className="header-cell">Time</div>
 </div>
 
-{appointments.map((appointment) => (
-<div className="appointment-row" key={appointment.id}>
+{loading
+? Array.from({ length: 5 }).map((_, index) => (
+<div className="appointment-row " key={index}>
+<div className="cell"><Skeleton /></div>
+<div className="cell"><Skeleton/></div>
+<div className="cell"><Skeleton /></div>
+<div className="cell"><Skeleton /></div>
+</div>
+))
+: appointments.map((appointment) => (
+<div className="appointment-row " key={appointment.id}>
 <div className="cell">{`${appointment.first_name} ${appointment.last_name}`}</div>
 <div className="cell">{appointment.doctorname || 'N/A'}</div>
-<div className="cell">{new Date(appointment.appointment_date).toLocaleDateString()}</div>
 <div className="cell">
-  {moment(appointment.appointment_time, 'HH:mm').format('h:mm A')}
+{new Date(appointment.appointment_date).toLocaleDateString()}
+</div>
+
+<div className="cell">
+{moment(appointment.appointment_time, 'HH:mm').format('h:mm A')}
 </div>
 </div>
 ))}
-</div>
 
-{appointments.length === 0 && <p style={{textAlign:'center'}}>No appointments scheduled.</p>}
+{!loading && appointments.length === 0 && (
+<p className="text-center col-span-4 mt-4">No appointments scheduled.</p>
+)}
 </div>
-  );
+</div>
+);
 }

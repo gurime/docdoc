@@ -4,10 +4,11 @@ import Navbar from '@/app/components/Navbar'
 import Footer from '@/app/components/Footer'
 import Patient from './Patient'
 export const metadata: Metadata = {
-    title:'Doctor Care | Patient Portal',
-    description: 'Access your health information and manage your appointments with our Doctor Care patient portal.',
-    keywords: 'Doctor Care, Patient Portal, Health Information, Appointments, Medical Services',
-}
+    title: 'Patient Portal | Doctor Care',
+    description: 'Access your personal health information, manage appointments, and communicate with your healthcare team through the Doctor Care patient portal. Explore features designed to streamline your healthcare experience and keep you informed about your health.',
+    keywords: 'patient portal, Doctor Care, health information, manage appointments, communicate with healthcare team, healthcare management, patient access'
+};
+
 export default function page() {
 return (
 <>

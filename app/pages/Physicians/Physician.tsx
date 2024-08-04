@@ -78,9 +78,7 @@ export default function Physician() {
         <div className="jumbotron-content">
           <h1 className="jumbotron-title">Meet Our Physicians</h1>
           <p className="jumbotron-subtitle">Providing exceptional care and expertise to ensure your well-being.</p>
-          <Link href="#!">
-         <button className="jumbotron-button" >Find a Doctor</button> 
-          </Link>
+   
         </div>
       </div>
       <div className="grid-container">
