@@ -25,7 +25,7 @@ return (
     <div className="footer-tablebox">
       <div className="footer-headline">Get To Know Us</div>
       <ul className="footer-navlink">
-        <li><Link href='#!'>About Us</Link></li>
+        <li><Link href='/pages/About'>About Us</Link></li>
         <li><Link href='#!'>Our History</Link></li>
         <li><Link href='#!'>Leadership</Link></li>
         <li><Link href='#!'>Careers</Link></li>

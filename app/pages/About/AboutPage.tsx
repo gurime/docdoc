@@ -1,21 +1,11 @@
 'use client'
 import React from 'react';
-import navlogo from '../../img/doc_care.png';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 
 const AboutPage = () => {
-    const router = useRouter();
 
   return (
     <div className="AboutContainer">
-    <Image
-          onClick={() => router.push('/')}
-          src={navlogo}
-          width={240}
-          style={{display:'flex',margin:'auto'}}
-          alt="Doctor Care Logo"
-        />
+    
       <section className="AboutMission">
         <h2>Our Mission</h2>
         <p>
