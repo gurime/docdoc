@@ -52,6 +52,9 @@ return (
         <img src={registerimg.src}/>
     
         <input
+        style={{
+          color:'#000'
+        }}
           type="email"
           placeholder="Email"
           value={email}
@@ -59,6 +62,9 @@ return (
           required
         />
         <input
+        style={{
+          color:'#000'
+        }}
           type="password"
           placeholder="Password"
           value={password}

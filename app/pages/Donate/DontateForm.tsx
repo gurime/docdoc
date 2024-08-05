@@ -138,6 +138,9 @@ const CheckoutForm = () => {
           <div  className='form-group'>
             <label style={{color:'#000'}} className='form-label' htmlFor="firstName">First Name:</label>
             <input
+            style={{
+              color:'#000'
+            }}
               id="firstName"
               type="text"
               value={firstName}
@@ -148,6 +151,9 @@ const CheckoutForm = () => {
           <div className='form-group'>
             <label style={{color:'#000'}} className='form-label' htmlFor="lastName">Last Name:</label>
             <input
+            style={{
+              color:'#000'
+            }}
               id="lastName"
               type="text"
               value={lastName}
@@ -158,6 +164,9 @@ const CheckoutForm = () => {
           <div className='form-group'>
             <label style={{color:'#000'}} className='form-label' htmlFor="address">Address:</label>
             <input
+            style={{
+              color:'#000'
+            }}
               id="address"
               type="text"
               value={address}
@@ -168,6 +177,7 @@ const CheckoutForm = () => {
           <div className='form-group'>
               <label style={{color:'#000'}} className='form-label' htmlFor="amount">Donation Amount:</label>
               <input
+         
                 id="amount"
                 type="text"
                 value={`$${amountInput}`}

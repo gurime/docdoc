@@ -76,6 +76,9 @@ export default function RegisterForm() {
             <form onSubmit={handleRegister} className="register-form">
                 <img src={registerimg.src} alt="Register"/>
                 <input
+                style={{
+                    color:'#000'
+                  }}
                     type="text"
                     placeholder="First Name"
                     value={firstName}
@@ -84,6 +87,9 @@ export default function RegisterForm() {
                     aria-label="First Name"
                 />
                 <input
+                style={{
+                    color:'#000'
+                  }}
                     type="text"
                     placeholder="Last Name"
                     value={lastName}
@@ -92,6 +98,9 @@ export default function RegisterForm() {
                     aria-label="Last Name"
                 />
                 <input
+                style={{
+                    color:'#000'
+                  }}
                     type="email"
                     placeholder="Email"
                     value={email}
@@ -100,6 +109,9 @@ export default function RegisterForm() {
                     aria-label="Email"
                 />
                 <input
+                style={{
+                    color:'#000'
+                  }}
                     type="password"
                     placeholder="Password"
                     value={password}
