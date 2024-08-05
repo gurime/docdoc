@@ -203,7 +203,6 @@ export default function Navbar() {
             <>
               <Link href='/pages/Register' className="sm-name">Guest</Link>
               <Link href="/pages/Login">Login</Link>
-              <Link href="/pages/Register">Register</Link>
             </>
           )}
       
