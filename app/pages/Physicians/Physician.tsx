@@ -30,7 +30,18 @@ interface Review {
 export default function Physician() {
   const [doctors, setDoctors] = useState<Doctor[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
+
+  useEffect(() => {
+    const checkAuthStatus = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      setIsAuthenticated(!!session);
+    };
+
+    checkAuthStatus();
+  }, []);
   useEffect(() => {
     const fetchDoctorsAndReviews = async () => {
       try {
@@ -69,7 +80,10 @@ export default function Physician() {
     };
 
     fetchDoctorsAndReviews();
-  }, []);
+  }, [isAuthenticated]);
+
+  // if (loading) return <p>Loading...</p>;
+  if (error) return <p>{error}</p>;
 
   return (
     <>
@@ -78,40 +92,39 @@ export default function Physician() {
         <div className="jumbotron-content">
           <h1 className="jumbotron-title">Meet Our Physicians</h1>
           <p className="jumbotron-subtitle">Providing exceptional care and expertise to ensure your well-being.</p>
-   
         </div>
       </div>
       <div className="grid-container">
-        {loading ? (
-          <p>Loading...</p>
-        ) : (
-          doctors.map((doctor) => (
-            <div key={doctor.id || uuidv4()} className="card">
-              <img src={doctor.coverimage} alt="" />
+        {doctors.map((doctor) => (
+          <div key={doctor.id || uuidv4()} className="card">
+            <img src={doctor.coverimage} alt={`${doctor.doctorname}`} className="card-image" />
+            <div className="card-content">
               <h2 className="card-title">{doctor.doctorname}</h2>
-              <div className="authflex">
-                <p>{doctor.role}</p>
-              </div>
-              <div>
-                <p className="card-content">{doctor.content && doctor.content.slice(0, 200)}...</p>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <p className="card-role">{doctor.role}</p>
+              <p className="card-description">{doctor.content && doctor.content.slice(0, 100)}...</p>
+              <div className="card-footer">
                 <Link href={`/pages/doctor/${doctor.id}`} className="hero-btn">
                   Read More
                 </Link>
-                <div>
-                  <MdReviews color="blue"  />
-                  <span >{doctor.review_count}</span>
-                </div>
-                <div>
-                  <FaStar color="blue" />
-                  <span>{doctor.average_rating.toFixed(1)} ({doctor.review_count})</span>
-                </div>
+                {isAuthenticated && (
+                  <div className="card-stats">
+                    <div className="stat-item">
+                      <MdReviews className="stat-icon" />
+                      <span className="stat-value">{doctor.review_count || 0} reviews</span>
+                    </div>
+                    <div className="stat-item">
+                      <FaStar className="stat-icon" />
+                      <span className="stat-value">{doctor.average_rating ? doctor.average_rating.toFixed(1) : 'N/A'} average rating</span>
+                    </div>
+                  </div>
+                )}
+                {!isAuthenticated && (
+                  <p className="login-prompt">Log in to see reviews and ratings</p>
+                )}
               </div>
-    
             </div>
-          ))
-        )}
+          </div>
+        ))}
       </div>
       <Footer />
     </>

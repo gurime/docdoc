@@ -581,6 +581,25 @@ body,html {
   background: rgb(0 0 0 / 29%);  z-index: 1;
 }
 
+.card-stats{
+display: flex;
+justify-content: space-between;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.stat-icon {
+  color: teal;
+}
+
+.stat-value {
+  font-size: 0.875rem;
+  color: #333;
+}
 .jumbotron-content {
   position: relative;
   z-index: 2;
