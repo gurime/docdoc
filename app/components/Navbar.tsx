@@ -188,7 +188,6 @@ export default function Navbar() {
 
         <div className="navlinks">
           <Link href="/">Home</Link>    <Link href="/pages/Physicians">Physicians</Link>
-          <Link href="/pages/Donate">Donate</Link>
           {isSignedIn && userData ? (
            <>        
               <Link href="/pages/PatientPortal">Patient</Link>

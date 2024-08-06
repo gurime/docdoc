@@ -7,6 +7,7 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa";
 import { MdReviews } from "react-icons/md";
+import { RiseLoader } from "react-spinners";
 import { v4 as uuidv4 } from 'uuid';
 interface Doctor {
   id: string;
@@ -94,38 +95,42 @@ export default function Physician() {
           <p className="jumbotron-subtitle">Providing exceptional care and expertise to ensure your well-being.</p>
         </div>
       </div>
-      <div className="grid-container">
-        {doctors.map((doctor) => (
-          <div key={doctor.id || uuidv4()} className="card">
-            <img src={doctor.coverimage} alt={`${doctor.doctorname}`} className="card-image" />
-            <div className="card-content">
-              <h2 className="card-title">{doctor.doctorname}</h2>
-              <p className="card-role">{doctor.role}</p>
-              <p className="card-description">{doctor.content && doctor.content.slice(0, 100)}...</p>
-              <div className="card-footer">
-                <Link href={`/pages/doctor/${doctor.id}`} className="hero-btn">
-                  Read More
-                </Link>
-                {isAuthenticated && (
-                  <div className="card-stats">
-                    <div className="stat-item">
-                      <MdReviews className="stat-icon" />
-                      <span className="stat-value">{doctor.review_count || 0} reviews</span>
-                    </div>
-                    <div className="stat-item">
-                      <FaStar className="stat-icon" />
-                      <span className="stat-value">{doctor.average_rating ? doctor.average_rating.toFixed(1) : 'N/A'} average rating</span>
-                    </div>
-                  </div>
-                )}
-                {!isAuthenticated && (
-                  <p className="login-prompt">Log in to see reviews and ratings</p>
-                )}
+      {loading ? (
+        <><div style={{display:'flex',placeContent:'center',height:'50svh',alignItems:'center'}}> <RiseLoader color="blue" /></div></>
+  
+) : (
+  <div className="grid-container">
+    {doctors.map((doctor) => (
+      <div key={doctor.id || uuidv4()} className="card">
+        <img src={doctor.coverimage} alt={`${doctor.doctorname}`} className="card-image" />
+        <div className="card-content">
+          <h2 className="card-title">{doctor.doctorname}</h2>
+          <p className="card-role">{doctor.role}</p>
+          <p className="card-description">{doctor.content && doctor.content.slice(0, 100)}...</p>
+          <div className="card-footer">
+            <Link href={`/pages/doctor/${doctor.id}`} className="hero-btn">
+              Read More
+            </Link>
+            {isAuthenticated ? (
+              <div className="card-stats">
+                <div className="stat-item">
+                  <MdReviews className="stat-icon" />
+                  <span className="stat-value">{doctor.review_count || 0} reviews</span>
+                </div>
+                <div className="stat-item">
+                  <FaStar className="stat-icon" />
+                  <span className="stat-value">{doctor.average_rating ? doctor.average_rating.toFixed(1) : 'N/A'} average rating</span>
+                </div>
               </div>
-            </div>
+            ) : (
+              <p className="login-prompt">Log in to see reviews and ratings</p>
+            )}
           </div>
-        ))}
+        </div>
       </div>
+    ))}
+  </div>
+)}
       <Footer />
     </>
   );
